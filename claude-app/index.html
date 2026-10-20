@@ -1,275 +1,382 @@
 <title>Chat-to-Pay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Hind:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a two-pane workbench. The pasted chat sits on the left, a perforated order slip on the right; they stack on phones. */
+/* Layout: a calm product page. A frosted bar with a segmented control, a large two-tone headline,
+   then a two-card workspace (chat in, order out) that stacks to one column on phones. */
 :root {
-  --paper: #f2f4fa;
-  --sheet: #ffffff;
-  --sheet-2: #eaeef8;
-  --rule: #d5dbeb;
-  --ink: #131a33;
-  --ink-2: #4e5677;
-  --blue: #2a43c6;
-  --blue-ink: #ffffff;
-  --blue-soft: #e5e9fb;
-  --green: #0c7a4e;
-  --green-soft: #e0f3e9;
-  --amber: #875600;
-  --amber-soft: #fcefd2;
-  --red: #b3261e;
-  --red-soft: #fbe8e6;
-  --wa: #128c4b;
-  --wa-ink: #ffffff;
-  --display: "Baloo 2", "Hind", system-ui, sans-serif;
-  --body: "Hind", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  interpolate-size: allow-keywords;
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --field: #f5f5f7;
+  --field-hover: #ededf0;
+  --sep: rgba(0, 0, 0, 0.08);
+  --text: #1d1d1f;
+  --text-2: #6e6e73;
+  --text-3: #86868b;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --on-blue: #ffffff;
+  --link: #0066cc;
+  --blue-soft: rgba(0, 113, 227, 0.12);
+  --focus: rgba(0, 113, 227, 0.55);
+  --gray-btn: #e8e8ed;
+  --gray-btn-hover: #dcdce1;
+  --green: #248a3d;
+  --on-green: #ffffff;
+  --green-text: #1d7a35;
+  --green-dot: #34c759;
+  --orange: #b64400;
+  --orange-dot: #ff9f0a;
+  --orange-soft: #fff5e8;
+  --red: #d70015;
+  --red-soft: #fff0f1;
+  --eyebrow: #bf4800;
+  --nav: rgba(255, 255, 255, 0.72);
+  --seg: rgba(118, 118, 128, 0.12);
+  --thumb: #ffffff;
+  --mark-a: #0a84ff;
+  --mark-b: #5e5ce6;
+  --toast-bg: rgba(29, 29, 31, 0.9);
+  --toast-fg: #f5f5f7;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 6px 24px rgba(0, 0, 0, 0.05);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0d1120; --sheet: #151a2d; --sheet-2: #1c223b; --rule: #2a3152;
-    --ink: #e6e9f5; --ink-2: #9aa2c1;
-    --blue: #8d9dff; --blue-ink: #0d1120; --blue-soft: #222a54;
-    --green: #55ca95; --green-soft: #11281e;
-    --amber: #f1b84c; --amber-soft: #2b2311;
-    --red: #ff8b80; --red-soft: #321715;
-    --wa: #3ccf7f; --wa-ink: #05210f;
+    --bg: #000000; --surface: #1c1c1e; --field: #2c2c2e; --field-hover: #3a3a3c; --sep: rgba(255, 255, 255, 0.1);
+    --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #8e8e93;
+    --blue: #0071e3; --blue-hover: #0a84ff; --on-blue: #ffffff; --link: #2997ff; --blue-soft: rgba(10, 132, 255, 0.2); --focus: rgba(41, 151, 255, 0.6);
+    --gray-btn: #3a3a3c; --gray-btn-hover: #48484a;
+    --green: #30d158; --on-green: #002b10; --green-text: #30d158; --green-dot: #30d158;
+    --orange: #ffb340; --orange-dot: #ff9f0a; --orange-soft: rgba(255, 159, 10, 0.14);
+    --red: #ff6961; --red-soft: rgba(255, 69, 58, 0.16);
+    --eyebrow: #ff9f0a;
+    --nav: rgba(22, 22, 23, 0.72); --seg: rgba(118, 118, 128, 0.24); --thumb: #636366;
+    --toast-bg: rgba(245, 245, 247, 0.92); --toast-fg: #1d1d1f;
+    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0d1120; --sheet: #151a2d; --sheet-2: #1c223b; --rule: #2a3152;
-  --ink: #e6e9f5; --ink-2: #9aa2c1;
-  --blue: #8d9dff; --blue-ink: #0d1120; --blue-soft: #222a54;
-  --green: #55ca95; --green-soft: #11281e;
-  --amber: #f1b84c; --amber-soft: #2b2311;
-  --red: #ff8b80; --red-soft: #321715;
-  --wa: #3ccf7f; --wa-ink: #05210f;
+  --bg: #000000; --surface: #1c1c1e; --field: #2c2c2e; --field-hover: #3a3a3c; --sep: rgba(255, 255, 255, 0.1);
+  --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #8e8e93;
+  --blue: #0071e3; --blue-hover: #0a84ff; --on-blue: #ffffff; --link: #2997ff; --blue-soft: rgba(10, 132, 255, 0.2); --focus: rgba(41, 151, 255, 0.6);
+  --gray-btn: #3a3a3c; --gray-btn-hover: #48484a;
+  --green: #30d158; --on-green: #002b10; --green-text: #30d158; --green-dot: #30d158;
+  --orange: #ffb340; --orange-dot: #ff9f0a; --orange-soft: rgba(255, 159, 10, 0.14);
+  --red: #ff6961; --red-soft: rgba(255, 69, 58, 0.16);
+  --eyebrow: #ff9f0a;
+  --nav: rgba(22, 22, 23, 0.72); --seg: rgba(118, 118, 128, 0.24); --thumb: #636366;
+  --toast-bg: rgba(245, 245, 247, 0.92); --toast-fg: #1d1d1f;
+  --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.55 var(--body); }
-button, input, textarea { font: inherit; color: inherit; }
-a { color: var(--blue); }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.47 var(--font); letter-spacing: -0.016em; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+button, input, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+::selection { background: var(--blue-soft); }
+input[type="number"] { -moz-appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--rule); }
-.top-inner { max-width: 72rem; margin: 0 auto; padding: 10px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
-.brand { display: flex; align-items: center; gap: 10px; font: 700 1.4rem/1 var(--display); letter-spacing: -0.01em; }
-.brand-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--blue); color: var(--blue-ink); display: grid; place-items: center; font: 600 1rem/1 var(--body); }
-.tabs { display: flex; gap: 4px; }
-.tab { border: 0; background: transparent; color: var(--ink-2); font-weight: 500; padding: 7px 12px; border-radius: 9px; cursor: pointer; }
-.tab:hover { color: var(--ink); }
-.tab[aria-current="page"] { background: var(--blue-soft); color: var(--blue); }
-.chip { margin-left: auto; font-size: 0.8rem; font-weight: 500; padding: 4px 11px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); white-space: nowrap; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes enter { from { opacity: 0; transform: translateY(12px) scale(0.985); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.07); } 100% { transform: scale(1); } }
+@keyframes shimmer { from { background-position: -480px 0; } to { background-position: 480px 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.rise { animation: rise 0.9s var(--ease) both; }
+.d1 { animation-delay: 0.08s; } .d2 { animation-delay: 0.16s; } .d3 { animation-delay: 0.26s; } .d4 { animation-delay: 0.34s; }
+.enter { animation: enter 0.55s var(--ease) both; }
+.row-enter { animation: enter 0.5s var(--ease) both; }
+.view-enter { animation: fade 0.45s var(--ease) both; }
 
-.wrap { max-width: 72rem; margin: 0 auto; padding-inline: 16px; padding-block: 24px 48px; }
-.grid { display: grid; gap: 24px; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
-@media (max-width: 880px) { .grid { grid-template-columns: minmax(0, 1fr); } }
-.stack { display: grid; gap: 16px; min-width: 0; }
+/* Bar */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--nav); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--sep); animation: fade 0.6s var(--ease) both; }
+.nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 22px; height: 56px; display: flex; align-items: center; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; letter-spacing: -0.022em; white-space: nowrap; }
+.mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(145deg, var(--mark-a), var(--mark-b)); color: #ffffff; display: grid; place-items: center; font-size: 15px; font-weight: 600; letter-spacing: 0; }
+.seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 2px; border-radius: 9px; background: var(--seg); margin-left: auto; }
+.seg::before { content: ""; position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); border-radius: 7px; background: var(--thumb); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04); transition: transform 0.45s var(--ease); }
+.seg[data-active="orders"]::before { transform: translateX(100%); }
+.seg button { position: relative; z-index: 1; border: 0; background: none; padding: 6px 14px; min-width: 104px; font-size: 13px; font-weight: 500; letter-spacing: -0.01em; color: var(--text); cursor: pointer; white-space: nowrap; border-radius: 7px; }
+.nav-note { font-size: 12px; color: var(--text-2); white-space: nowrap; }
+@media (max-width: 760px) { .nav-note { display: none; } }
+@media (max-width: 520px) { .nav-inner { padding: 0 16px; gap: 10px; } .seg button { min-width: 0; padding: 6px 12px; } }
 
-h1 { font: 700 clamp(1.7rem, 1.25rem + 1.6vw, 2.3rem)/1.08 var(--display); margin: 0; letter-spacing: -0.015em; text-wrap: balance; }
-h2 { font: 700 1.35rem/1.15 var(--display); margin: 0; text-wrap: balance; }
-.lede { color: var(--ink-2); margin: 8px 0 0; max-width: 58ch; }
-.muted { color: var(--ink-2); }
-.small { font-size: 0.86rem; }
-.eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 2px; }
+/* Page */
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 22px; padding-block: 0 64px; }
+@media (max-width: 520px) { .wrap { padding-inline: 16px; } }
+.hero { padding-block: 72px 44px; max-width: 780px; }
+@media (max-width: 520px) { .hero { padding-block: 44px 28px; } }
+.eyebrow { font-size: 17px; font-weight: 600; color: var(--eyebrow); margin: 0 0 10px; letter-spacing: -0.016em; }
+h1 { margin: 0; font-size: clamp(40px, 2rem + 3.6vw, 64px); line-height: 1.05; font-weight: 700; letter-spacing: -0.042em; text-wrap: balance; }
+h1 .dim { color: var(--text-3); }
+.lede { font-size: clamp(19px, 1rem + 0.5vw, 21px); line-height: 1.4; color: var(--text-2); margin: 20px 0 0; max-width: 40ch; letter-spacing: -0.022em; }
+h2 { margin: 0; }
 
-.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; min-width: 0; }
-.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.lbl { font-weight: 600; font-size: 0.92rem; }
-.linkbtn { border: 0; background: none; padding: 0; color: var(--blue); font-weight: 500; cursor: pointer; }
-.linkbtn:hover { text-decoration: underline; }
+.work { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .work { grid-template-columns: minmax(0, 1fr); } }
+.col { display: grid; gap: 20px; min-width: 0; }
+.card { background: var(--surface); border-radius: 22px; padding: 24px; box-shadow: var(--shadow); min-width: 0; }
+@media (max-width: 520px) { .card { padding: 20px; border-radius: 20px; } }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.card-title { font-size: 21px; font-weight: 600; letter-spacing: -0.026em; margin: 0; }
+.big-title { font-size: 28px; font-weight: 700; letter-spacing: -0.034em; line-height: 1.15; margin: 0; text-wrap: balance; }
+.sub { font-size: 15px; color: var(--text-2); margin: 6px 0 0; letter-spacing: -0.012em; }
+.textlink { border: 0; background: none; padding: 0; color: var(--link); font-size: 15px; cursor: pointer; letter-spacing: -0.012em; }
+.textlink:hover { text-decoration: underline; }
+.muted-link { color: var(--text-2); }
 
-.input { width: 100%; background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 9px 12px; }
-.input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
-#chat { margin-top: 8px; min-height: 16rem; resize: vertical; font: 400 0.84rem/1.65 var(--mono); }
-.hint { margin: 8px 0 0; font-size: 0.82rem; color: var(--ink-2); }
+.input { width: 100%; background: var(--field); border: 1px solid transparent; border-radius: 12px; padding: 12px 14px; font-size: 17px; transition: background-color 0.2s, border-color 0.2s, box-shadow 0.25s var(--ease); }
+.input:hover { background: var(--field-hover); }
+.input:focus { outline: none; background: var(--surface); border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-soft); }
+.input::placeholder { color: var(--text-3); }
+.input.need { border-color: var(--orange-dot); }
+#chat { display: block; margin-top: 16px; min-height: 264px; resize: vertical; font: 14px/1.62 var(--mono); letter-spacing: 0; }
+.hint { font-size: 13px; color: var(--text-2); margin: 12px 0 0; text-align: center; letter-spacing: -0.008em; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 10px; padding: 10px 16px; font-weight: 600; cursor: pointer; text-decoration: none; line-height: 1.2; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 980px; padding: 12px 22px; font-size: 17px; font-weight: 500; letter-spacing: -0.016em; cursor: pointer; text-decoration: none !important; white-space: nowrap; -webkit-tap-highlight-color: transparent; transition: transform 0.25s var(--ease), background-color 0.2s, filter 0.2s, opacity 0.2s; }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn.primary { background: var(--blue); color: var(--on-blue); }
+.btn.primary:hover:not(:disabled) { background: var(--blue-hover); }
+.btn.gray { background: var(--gray-btn); color: var(--text); }
+.btn.gray:hover:not(:disabled) { background: var(--gray-btn-hover); }
+.btn.green { background: var(--green); color: var(--on-green); }
+.btn.green:hover { filter: brightness(1.07); }
 .btn.block { width: 100%; }
-.btn.primary { background: var(--blue); color: var(--blue-ink); }
-.btn.ghost { background: var(--sheet); border-color: var(--rule); color: var(--ink); }
-.btn.wa { background: var(--wa); color: var(--wa-ink); }
-.btn.sm { padding: 6px 11px; font-size: 0.85rem; border-radius: 8px; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn.primary:not(:disabled):hover { filter: brightness(1.08); }
+.btn.lg { padding: 15px 24px; font-weight: 600; }
+.btn.sm { padding: 7px 14px; font-size: 14px; gap: 6px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn.sm svg { width: 15px; height: 15px; }
+#read { margin-top: 16px; }
 
-details.panel { padding: 0; }
-details.panel > summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: baseline; gap: 10px; }
-details.panel > summary::-webkit-details-marker { display: none; }
-details.panel > summary::after { content: "+"; margin-left: auto; color: var(--ink-2); }
-details.panel[open] > summary::after { content: "−"; }
-.shop-body { display: grid; gap: 12px; padding: 4px 16px 16px; border-top: 1px solid var(--rule); padding-top: 14px; }
-.shop-body label { display: grid; gap: 4px; font-size: 0.9rem; font-weight: 500; }
-.shop-body textarea { resize: vertical; font-size: 0.88rem; }
+/* Shop disclosure */
+details.card { padding: 0; overflow: hidden; }
+details > summary { list-style: none; cursor: pointer; padding: 18px 24px; display: flex; align-items: center; gap: 14px; border-radius: 22px; }
+details > summary::-webkit-details-marker { display: none; }
+.sum-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--field); display: grid; place-items: center; color: var(--text-2); flex: none; }
+.sum-icon svg { width: 19px; height: 19px; }
+.sum-text { display: grid; min-width: 0; }
+.sum-title { font-size: 17px; font-weight: 600; }
+.sum-sub { font-size: 14px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chev { margin-left: auto; width: 18px; height: 18px; color: var(--text-3); flex: none; transition: transform 0.4s var(--ease); }
+details[open] .chev { transform: rotate(90deg); }
+details::details-content { height: 0; overflow: clip; transition: height 0.45s var(--ease), content-visibility 0.45s allow-discrete; }
+details[open]::details-content { height: auto; }
+.shop-body { display: grid; gap: 14px; padding: 0 24px 24px; }
+.shop-body label { display: grid; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-2); }
+.shop-body .input { font-size: 15px; }
+.shop-body textarea { resize: vertical; }
 
-.alert { border-radius: 12px; padding: 12px 14px; background: var(--red-soft); color: var(--red); font-size: 0.93rem; }
+/* Empty + reading */
+.steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 22px; }
+.steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: center; }
+.step-icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: var(--blue-soft); color: var(--link); }
+.step-icon svg { width: 21px; height: 21px; }
+.steps strong { display: block; font-size: 17px; font-weight: 600; }
+.steps span { display: block; font-size: 15px; color: var(--text-2); }
+.empty-foot { margin: 28px 0 0; font-size: 14px; color: var(--text-2); }
+.reading-head { display: flex; align-items: center; gap: 14px; }
+.reading-head > div { flex: 1; min-width: 0; }
+.spinner { width: 26px; height: 26px; flex: none; animation: spin 0.9s steps(8) infinite; }
+.spinner line { stroke: var(--text-2); stroke-width: 2.4; stroke-linecap: round; }
+#reading-step { transition: opacity 0.3s var(--ease); }
+.meta { font-size: 13px; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.skeleton { display: grid; gap: 12px; margin-top: 24px; }
+.skeleton span { display: block; height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--field) 0%, var(--field-hover) 50%, var(--field) 100%); background-size: 960px 100%; animation: shimmer 1.5s linear infinite; }
+.skeleton span.block { height: 64px; border-radius: 14px; margin-top: 6px; }
 
-/* Empty + reading states */
-.steps { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
-.steps li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; }
-.steps .n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; }
-.steps p { margin: 0; }
-.dashed { border: 1.5px dashed var(--rule); border-radius: 14px; padding: 20px; background: transparent; }
-.bars { display: grid; gap: 9px; margin-top: 16px; }
-.bars span { height: 11px; border-radius: 6px; background: var(--sheet-2); }
-@media (prefers-reduced-motion: no-preference) {
-  .bars span { animation: pulse 1.4s ease-in-out infinite; }
-  .bars span:nth-child(2) { animation-delay: 0.15s; }
-  .bars span:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes pulse { 50% { opacity: 0.45; } }
-}
-
-/* The order slip */
-.slip { position: relative; background: var(--sheet); border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 14px 14px; padding: 24px 16px 18px; margin-top: 8px; min-width: 0; }
-.slip::before { content: ""; position: absolute; left: -1px; right: -1px; top: -8px; height: 16px; background: radial-gradient(circle at 8px 8px, var(--paper) 4.5px, var(--sheet) 5px) 0 0 / 16px 16px repeat-x; border-inline: 1px solid var(--rule); }
-.slip-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; padding-bottom: 12px; border-bottom: 1.5px dashed var(--rule); }
-.slip-no { font: 700 1.5rem/1 var(--display); font-variant-numeric: tabular-nums; }
-.summary { margin: 12px 0 0; color: var(--ink-2); }
-
-.missing { margin-top: 14px; border-radius: 12px; background: var(--amber-soft); color: var(--amber); padding: 12px 14px; font-size: 0.93rem; }
-.missing ul { margin: 4px 0 0; padding-left: 18px; }
-.ask { margin-top: 10px; background: var(--sheet); color: var(--ink); border-radius: 10px; padding: 10px 12px; }
-.ask p { margin: 2px 0 8px; white-space: pre-wrap; }
+/* Order card */
+.order-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.summary { margin: 8px 0 0; color: var(--text-2); font-size: 15px; }
+.missing { margin-top: 20px; border-radius: 16px; background: var(--orange-soft); padding: 16px; }
+.missing-title { display: flex; gap: 8px; align-items: center; font-weight: 600; color: var(--orange); font-size: 15px; margin: 0; }
+.missing-title svg { width: 18px; height: 18px; flex: none; }
+.missing ul { margin: 8px 0 0; padding-left: 26px; font-size: 15px; }
+.ask { margin-top: 14px; background: var(--surface); border-radius: 12px; padding: 14px; }
+.label { font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 6px; display: block; }
+.ask .msg { margin: 0 0 12px; white-space: pre-wrap; font-size: 15px; }
 .btns { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin-top: 16px; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
 .fields .wide { grid-column: 1 / -1; }
 @media (max-width: 520px) { .fields { grid-template-columns: minmax(0, 1fr); } }
-.f { display: grid; gap: 2px; min-width: 0; }
-.f > span:not(.money) { font-size: 0.78rem; color: var(--ink-2); }
-.u { width: 100%; background: transparent; border: 0; border-bottom: 1.5px solid var(--rule); border-radius: 0; padding: 6px 2px; min-width: 0; }
-.u:focus { outline: none; border-bottom-color: var(--blue); }
-.u.need { border-bottom-color: var(--amber); }
-.u::placeholder { color: var(--ink-2); opacity: 0.7; }
-.num { font-variant-numeric: tabular-nums; }
-.money { position: relative; display: block; min-width: 0; }
-.money::before { content: "₹"; position: absolute; left: 2px; bottom: 7px; color: var(--ink-2); pointer-events: none; }
-.money .u { padding-left: 16px; }
-
-.items-head { display: flex; justify-content: space-between; align-items: baseline; margin: 22px 0 4px; }
-.item { display: grid; grid-template-columns: minmax(0, 1fr) 5.5rem 3.5rem 6rem 2rem; gap: 6px 10px; align-items: end; padding: 10px 0; border-bottom: 1px solid var(--sheet-2); }
-.item .x { width: 2rem; height: 2rem; border: 0; background: transparent; color: var(--ink-2); border-radius: 8px; cursor: pointer; }
+.f { display: grid; gap: 6px; min-width: 0; }
+.f > .cap { font-size: 13px; color: var(--text-2); }
+.f .input, .item .input { padding: 10px 12px; font-size: 16px; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 28px 0 10px; }
+.section-head .label { margin: 0; }
+.items { background: var(--field); border-radius: 16px; overflow: hidden; }
+.item { padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.item + .item { border-top: 1px solid var(--sep); }
+.items .input { background: var(--surface); }
+.items .input:hover { background: var(--surface); }
+.item .x { width: 34px; height: 34px; border: 0; border-radius: 50%; background: transparent; color: var(--text-3); display: grid; place-items: center; cursor: pointer; align-self: center; transition: background-color 0.2s, color 0.2s; }
 .item .x:hover { background: var(--red-soft); color: var(--red); }
-.item-foot { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; font-size: 0.8rem; margin: 0; }
-.item-foot .line { font-weight: 600; font-variant-numeric: tabular-nums; }
-.src-warn { color: var(--amber); font-weight: 600; }
-@media (max-width: 560px) {
-  .item { grid-template-columns: repeat(3, minmax(0, 1fr)) 2rem; }
-  .item .name { grid-column: 1 / 4; }
-  .item .x { grid-column: 4; grid-row: 1; }
-  .item .price { grid-column: 3 / 5; }
-}
-.add { width: 100%; margin-top: 10px; border: 1.5px dashed var(--rule); background: transparent; color: var(--ink-2); border-radius: 10px; padding: 8px; cursor: pointer; }
-.add:hover { color: var(--ink); }
-
-.totals { margin: 16px 0 0; display: grid; gap: 8px; }
+.item .x svg { width: 16px; height: 16px; }
+.item-row { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 8rem); gap: 10px; align-items: center; }
+@media (max-width: 560px) { .item-row { grid-template-columns: minmax(0, 1fr) auto; } .item-row .money { grid-column: 1 / -1; } }
+.stepper { display: inline-flex; align-items: center; background: var(--surface); border-radius: 12px; height: 44px; }
+.stepper button { width: 38px; height: 44px; border: 0; background: none; color: var(--link); font-size: 21px; line-height: 1; cursor: pointer; border-radius: 12px; transition: background-color 0.15s; }
+.stepper button:hover { background: var(--field-hover); }
+.stepper input { width: 34px; text-align: center; border: 0; background: none; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; padding: 0; }
+.stepper input:focus { outline: none; }
+.money { position: relative; display: block; min-width: 0; }
+.money::before { content: "₹"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-2); pointer-events: none; font-size: 15px; }
+.money .input { padding-left: 27px; font-variant-numeric: tabular-nums; }
+.item-foot { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--text-2); margin: 0; }
+.src { display: inline-flex; align-items: center; gap: 6px; }
+.src::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--green-dot); }
+.src.warn { color: var(--orange); font-weight: 500; }
+.src.warn::before { background: var(--orange-dot); }
+.line { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.add { margin-top: 10px; border: 0; background: none; color: var(--link); font-size: 15px; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; padding: 6px 2px; }
+.add svg { width: 16px; height: 16px; }
+.totals { margin: 22px 0 0; display: grid; gap: 10px; }
 .totals > div { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.totals dt { color: var(--ink-2); }
-.totals dd { margin: 0; font-variant-numeric: tabular-nums; }
-.totals .money { width: 7rem; }
-.totals .money .u { text-align: right; }
-.totals .grand { border-top: 1.5px dashed var(--rule); padding-top: 12px; margin-top: 4px; }
-.totals .grand dt, .totals .grand dd { color: var(--ink); font: 700 1.3rem/1 var(--display); }
-.warn-text { color: var(--amber); font-size: 0.9rem; margin: 12px 0 0; }
-#create { margin-top: 14px; padding-block: 13px; }
+.totals dt { color: var(--text-2); font-size: 15px; }
+.totals dd { margin: 0; font-size: 15px; font-variant-numeric: tabular-nums; }
+.totals .money { width: 8rem; }
+.totals .money .input { text-align: right; padding-block: 8px; font-size: 15px; }
+.totals .grand { border-top: 1px solid var(--sep); padding-top: 16px; margin-top: 6px; }
+.totals .grand dt { color: var(--text); font-size: 21px; font-weight: 600; letter-spacing: -0.024em; }
+.totals .grand dd { font-size: 30px; font-weight: 700; letter-spacing: -0.036em; }
+.pop { animation: pop 0.38s var(--ease); }
+.warn-text { color: var(--orange); font-size: 14px; margin: 14px 0 0; text-align: center; }
+#create { margin-top: 18px; }
 
 /* Done */
-.done-head { display: flex; gap: 12px; align-items: center; }
-.tick { width: 40px; height: 40px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font-size: 1.2rem; flex: none; }
-.linkbox { margin-top: 16px; display: flex; align-items: center; gap: 8px; background: var(--sheet-2); border-radius: 10px; padding: 8px 8px 8px 12px; }
-.linkbox code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 0.84rem/1.4 var(--mono); }
-#reply { margin-top: 6px; min-height: 9rem; resize: vertical; font-size: 0.95rem; }
-.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.done-head { text-align: center; padding-top: 6px; }
+.check { width: 64px; height: 64px; display: block; margin: 0 auto 14px; }
+.check circle { fill: none; stroke: var(--green-dot); stroke-width: 3; stroke-dasharray: 176; stroke-dashoffset: 176; animation: draw 0.6s var(--ease) 0.1s forwards; }
+.check path { fill: none; stroke: var(--green-dot); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 36; stroke-dashoffset: 36; animation: draw 0.4s var(--ease) 0.55s forwards; }
+.done-head .sub { font-size: 17px; }
+.linkbox { margin-top: 24px; display: flex; align-items: center; gap: 10px; background: var(--field); border-radius: 14px; padding: 8px 8px 8px 16px; }
+.linkbox code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 14px var(--mono); letter-spacing: 0; }
+.note-sm { font-size: 13px; color: var(--text-2); margin: 10px 0 0; text-align: center; }
+.reply-label { margin-top: 24px; }
+#reply { min-height: 150px; resize: vertical; font-size: 16px; line-height: 1.5; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
 @media (max-width: 440px) { .split { grid-template-columns: minmax(0, 1fr); } }
-.foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); }
+.foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--sep); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.alert { border-radius: 16px; padding: 14px 16px; background: var(--red-soft); color: var(--red); font-size: 15px; animation: enter 0.4s var(--ease) both; }
 
 /* Orders */
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
-.stat { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 12px 14px; min-width: 0; }
-.stat .k { font-size: 0.82rem; color: var(--ink-2); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stat .v { font: 700 clamp(1.15rem, 0.9rem + 1.2vw, 1.7rem)/1.1 var(--display); margin: 4px 0 0; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stat .v.good { color: var(--green); }
-.stat .h { font-size: 0.78rem; color: var(--ink-2); margin: 2px 0 0; }
-.list { list-style: none; margin: 16px 0 0; padding: 0; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
-.list li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 16px; border-top: 1px solid var(--rule); }
-.list li:first-child { border-top: 0; }
-.who { flex: 1 1 15rem; min-width: 0; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 72px 36px; }
+@media (max-width: 520px) { .page-head { padding-block: 44px 24px; } }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.stat { background: var(--surface); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); min-width: 0; }
+@media (max-width: 640px) { .stats { gap: 10px; } .stat { padding: 16px; border-radius: 18px; } }
+.stat .k { font-size: 14px; color: var(--text-2); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat .v { font-size: clamp(22px, 0.9rem + 2.4vw, 40px); font-weight: 700; letter-spacing: -0.038em; margin: 6px 0 0; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat .v.good { color: var(--green-text); }
+.stat .h { font-size: 13px; color: var(--text-2); margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list { list-style: none; margin: 20px 0 0; padding: 0; background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; }
+.list li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 16px 20px; position: relative; }
+.list li + li::before { content: ""; position: absolute; top: 0; left: 76px; right: 0; height: 1px; background: var(--sep); }
+.avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #ffffff; font-weight: 600; font-size: 15px; letter-spacing: 0; flex: none; }
+.who { flex: 1 1 14rem; min-width: 0; }
 .who p { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.who .name { font-weight: 600; display: flex; align-items: center; gap: 8px; }
-.amt { font-weight: 600; font-variant-numeric: tabular-nums; }
-.pill { font-size: 0.74rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
-.pill.created { background: var(--blue-soft); color: var(--blue); }
-.pill.paid { background: var(--green-soft); color: var(--green); }
+.who .name { font-weight: 600; font-size: 17px; }
+.who .items-line { font-size: 15px; color: var(--text-2); }
+.who .meta-line { font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; margin-left: 10px; vertical-align: 1px; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status.paid { color: var(--green-text); }
+.status.created { color: var(--orange); }
+.amt { font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; }
 .list .btns { margin-left: auto; }
-.empty { margin-top: 16px; text-align: center; }
-.note { margin-top: 28px; font-size: 0.84rem; color: var(--ink-2); max-width: 70ch; }
+@media (max-width: 640px) { .list li + li::before { left: 20px; } .list .amt { margin-left: 56px; } }
+.empty-list { margin-top: 20px; text-align: center; padding: 48px 24px; }
+
+.footer { margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--sep); font-size: 12px; line-height: 1.6; color: var(--text-2); }
+.toast { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); z-index: 50; transform: translate(-50%, 16px); opacity: 0; pointer-events: none; background: var(--toast-bg); color: var(--toast-fg); padding: 10px 18px; border-radius: 980px; font-size: 15px; font-weight: 500; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: opacity 0.3s var(--ease), transform 0.45s var(--ease); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
 </style>
 
-<header class="top">
-  <div class="top-inner">
-    <div class="brand"><span class="brand-mark" aria-hidden="true">₹</span>Chat-to-Pay</div>
-    <nav class="tabs" aria-label="Sections">
-      <button class="tab" id="tab-new" data-view="new" aria-current="page">New order</button>
-      <button class="tab" id="tab-orders" data-view="orders">Orders</button>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="mark" aria-hidden="true">₹</span>Chat-to-Pay</div>
+    <nav class="seg" id="seg" data-active="new" aria-label="Sections">
+      <button id="tab-new" data-view="new" type="button" aria-current="page">New order</button>
+      <button id="tab-orders" data-view="orders" type="button">Orders</button>
     </nav>
-    <span class="chip">Payment links are simulated</span>
+    <span class="nav-note">Payment links are simulated</span>
   </div>
 </header>
 
 <main class="wrap">
   <section id="view-new">
-    <div class="grid">
-      <div class="stack">
-        <div>
-          <h1>Turn a chat into a payment</h1>
-          <p class="lede">Paste a WhatsApp or Instagram conversation. Claude reads the order, you check the slip, and your customer gets a payment link with a reply in their own language.</p>
-        </div>
+    <div class="hero">
+      <p class="eyebrow rise">For sellers on WhatsApp and Instagram</p>
+      <h1 class="rise d1">Turn a chat into a payment. <span class="dim">In one tap.</span></h1>
+      <p class="lede rise d2">Paste the conversation. Claude reads the order, you check it, and your customer gets a payment link with a reply in their own language.</p>
+    </div>
 
-        <div class="panel">
-          <div class="row">
-            <label class="lbl" for="chat">Customer chat</label>
-            <button class="linkbtn" id="load-sample" type="button">Reset to sample chat</button>
+    <div class="work">
+      <div class="col">
+        <div class="card rise d3">
+          <div class="card-head">
+            <label class="card-title" for="chat">Customer chat</label>
+            <button class="textlink" id="load-sample" type="button">Use sample chat</button>
           </div>
           <textarea id="chat" class="input" spellcheck="false"></textarea>
-          <div style="display:grid;gap:8px;margin-top:12px">
-            <button class="btn primary block" id="read" type="button">Read order</button>
-          </div>
-          <p class="hint">The first time, Claude asks you to allow this page. It runs on your own Claude account.</p>
+          <button class="btn primary block lg" id="read" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l1.9 5.6a3 3 0 0 0 1.9 1.9l5.6 1.9-5.6 1.9a3 3 0 0 0-1.9 1.9L12 21.5l-1.9-5.6a3 3 0 0 0-1.9-1.9L2.6 12l5.6-1.9a3 3 0 0 0 1.9-1.9z"/></svg>
+            <span id="read-label">Read order</span>
+          </button>
+          <p class="hint" id="ai-hint">The first time, Claude asks you to allow this page. It runs on your own Claude account.</p>
         </div>
 
-        <details class="panel" id="shop">
-          <summary><span class="lbl">Shop setup</span><span class="muted small" id="shop-sub"></span></summary>
+        <details class="card rise d4" id="shop">
+          <summary>
+            <span class="sum-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg></span>
+            <span class="sum-text"><span class="sum-title">Shop setup</span><span class="sum-sub" id="shop-sub"></span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </summary>
           <div class="shop-body">
             <label for="shop-name">Shop name<input id="shop-name" class="input" autocomplete="off"></label>
             <label for="shop-catalog">Catalog and prices<textarea id="shop-catalog" class="input" rows="5"></textarea></label>
             <label for="shop-policies">Policies (COD, dispatch, exchanges)<textarea id="shop-policies" class="input" rows="3"></textarea></label>
-            <p class="hint" style="margin:0">Saved in this browser only.</p>
+            <p class="hint" style="margin:0;text-align:left">Saved in this browser only.</p>
           </div>
         </details>
       </div>
 
-      <div class="stack" id="right" aria-live="polite"></div>
+      <div class="col" id="right" aria-live="polite"></div>
     </div>
   </section>
 
   <section id="view-orders" hidden>
-    <div class="row" style="align-items:flex-end">
+    <div class="page-head">
       <div>
-        <h1>Orders</h1>
-        <p class="lede">Every payment link made from a chat. Mark an order paid once the customer pays.</p>
+        <h1>Orders.</h1>
+        <p class="lede" style="margin-top:12px">Every payment link made from a chat. Mark an order paid once the customer pays.</p>
       </div>
-      <button class="btn ghost sm" id="clear" type="button" hidden>Clear orders</button>
+      <button class="btn gray sm" id="clear" type="button" hidden>Clear orders</button>
     </div>
     <div class="stats" id="stats"></div>
     <div id="orders-list"></div>
   </section>
 
-  <p class="note">Orders are saved in your browser, and payment links are simulated, so no one is charged. Source code and the Razorpay-connected version: <a href="https://github.com/Aman-Tripathi27/chat-to-pay" target="_blank" rel="noreferrer">github.com/Aman-Tripathi27/chat-to-pay</a></p>
+  <footer class="footer">Orders are saved in your browser, and payment links are simulated, so no one is charged. Source code and the Razorpay-connected version: <a href="https://github.com/Aman-Tripathi27/chat-to-pay" target="_blank" rel="noreferrer">github.com/Aman-Tripathi27/chat-to-pay</a></footer>
 </main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (() => {
@@ -290,6 +397,19 @@ details.panel[open] > summary::after { content: "−"; }
   ].join("\n");
   const SOURCES = ["catalog", "seller_message", "customer_claim", "unknown"];
   const DEFAULT_REPLY = "Thank you! Your order: {{ITEMS}}. Total {{TOTAL}}. You can pay here: {{LINK}}";
+  const READING_STEPS = ["Finding the items and sizes…", "Matching prices to your catalog…", "Working out delivery…", "Writing a reply in the customer's language…"];
+  const AVATAR_COLORS = ["#0071e3", "#5e5ce6", "#a550a7", "#d6336c", "#c45500", "#0f7d8c", "#248a3d"];
+
+  const ICON = {
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H9l-5 4z"/></svg>',
+    slip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3.5"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></svg>',
+    warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>',
+    spinner: `<svg class="spinner" viewBox="0 0 24 24" aria-hidden="true">${Array.from({ length: 8 }, (_, i) => `<line x1="12" y1="2.5" x2="12" y2="6.5" transform="rotate(${i * 45} 12 12)" opacity="${((i + 1) / 8).toFixed(2)}"/>`).join("")}</svg>`,
+  };
 
   // ---- Per-viewer storage (may be unavailable: fall back to memory)
   const store = {
@@ -306,7 +426,7 @@ details.panel[open] > summary::after { content: "−"; }
   if (!Array.isArray(orders)) orders = [];
   let nextSlip = Number(store.get("ctp.slip", 42)) || 42;
 
-  const state = { view: "new", phase: "idle", error: null, draft: null, meta: null, slipNo: nextSlip, created: null, reply: "", ctl: null, startedAt: 0, aiOff: false, clearArmed: false };
+  const state = { view: "new", phase: "idle", error: null, draft: null, meta: null, slipNo: nextSlip, created: null, reply: "", ctl: null, startedAt: 0, aiOff: false, clearArmed: false, enterItem: -1, stats: null };
   const samplePromise = window.claude && typeof window.claude.use === "function" ? window.claude.use("sample") : Promise.resolve(null);
 
   // ---- Helpers
@@ -320,6 +440,8 @@ details.panel[open] > summary::after { content: "−"; }
   const fillReply = (tpl, v) => tpl.split("{{ITEMS}}").join(v.items).split("{{TOTAL}}").join(v.total).split("{{LINK}}").join(v.link);
   const rand = (n) => Array.from(crypto.getRandomValues(new Uint8Array(n)), (b) => "abcdefghijkmnpqrstuvwxyz23456789"[b % 32]).join("");
   const today = () => new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  const slipLabel = (n) => `No. ${String(n).padStart(4, "0")}`;
+  const reduceMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function normalizePhone(raw) {
     if (!raw) return null;
@@ -339,11 +461,30 @@ details.panel[open] > summary::after { content: "−"; }
     return new Date(ms).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
   }
 
-  async function copyText(text, btn) {
-    const label = btn.textContent;
+  function initials(name) {
+    if (!name) return "?";
+    const parts = name.trim().split(/\s+/);
+    return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+  }
+  function avatarColor(name) {
+    let h = 0;
+    for (const ch of name || "?") h = (h * 31 + ch.codePointAt(0)) >>> 0;
+    return AVATAR_COLORS[h % AVATAR_COLORS.length];
+  }
+
+  let toastTimer = null;
+  function toast(message) {
+    const el = $("#toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 1700);
+  }
+
+  async function copyText(text) {
     try {
       await navigator.clipboard.writeText(text);
-      btn.textContent = "Copied";
+      toast("Copied");
     } catch {
       const ta = document.createElement("textarea");
       ta.value = text;
@@ -355,9 +496,36 @@ details.panel[open] > summary::after { content: "−"; }
       let ok = false;
       try { ok = document.execCommand("copy"); } catch { ok = false; }
       ta.remove();
-      btn.textContent = ok ? "Copied" : "Select and copy it";
+      toast(ok ? "Copied" : "Select the text to copy it");
     }
-    setTimeout(() => { btn.textContent = label; }, 1600);
+  }
+
+  function countTo(el, to, format, from = 0) {
+    if (reduceMotion() || from === to) { el.textContent = format(to); return; }
+    const start = performance.now();
+    const duration = 900;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 4);
+      el.textContent = format(from + (to - from) * eased);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function restartAnimation(el, cls) {
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+
+  // Bring the result card into view. On phones it sits below the chat, so glide down to it.
+  function revealRight(force = false) {
+    const el = $("#right");
+    const navHeight = $(".nav").offsetHeight;
+    const top = el.getBoundingClientRect().top;
+    if (!force && top < window.innerHeight * 0.75) return;
+    window.scrollTo({ top: top + window.scrollY - navHeight - 16, behavior: reduceMotion() ? "auto" : "smooth" });
   }
 
   // ---- Claude
@@ -453,6 +621,7 @@ Replies to the customer (clarifying_question and reply_template):
   const DISABLING = ["not_granted", "sampling_disabled", "capability_disabled", "capability_removed", "not_declared"];
 
   let timer = null;
+  let stepTimer = null;
   async function readChat() {
     const chat = $("#chat").value.trim();
     if (!chat || state.phase === "reading") return;
@@ -469,10 +638,19 @@ Replies to the customer (clarifying_question and reply_template):
     state.created = null;
     state.startedAt = Date.now();
     render();
+    revealRight();
     timer = setInterval(() => {
       const el = $("#elapsed");
       if (el) el.textContent = `${Math.round((Date.now() - state.startedAt) / 1000)}s`;
     }, 1000);
+    let stepIndex = 0;
+    stepTimer = setInterval(() => {
+      const el = $("#reading-step");
+      if (!el) return;
+      stepIndex = (stepIndex + 1) % READING_STEPS.length;
+      el.style.opacity = "0";
+      setTimeout(() => { el.textContent = READING_STEPS[stepIndex]; el.style.opacity = "1"; }, 300);
+    }, 2600);
     try {
       const raw = await sample.json(buildPrompt(chat), { signal: state.ctl.signal, modelTier: "default" });
       const { draft, meta } = normalizeOrder(raw);
@@ -490,8 +668,10 @@ Replies to the customer (clarifying_question and reply_template):
       if (DISABLING.includes(code)) state.aiOff = true;
     } finally {
       clearInterval(timer);
+      clearInterval(stepTimer);
       state.ctl = null;
       render();
+      if (state.phase === "review") revealRight();
     }
   }
 
@@ -532,7 +712,7 @@ Replies to the customer (clarifying_question and reply_template):
     state.created = order;
     state.phase = "done";
     render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    revealRight(true);
   }
 
   function blockers() {
@@ -546,125 +726,150 @@ Replies to the customer (clarifying_question and reply_template):
     return out;
   }
 
-  // ---- Rendering: right pane
-  function stepsHTML() {
-    const steps = [
-      ["Paste the chat", "Hinglish, Hindi, English: whatever your customer writes in. A sample is loaded on the left."],
-      ["Check the slip", "Claude fills in items, sizes, prices, delivery and address, and flags anything missing."],
-      ["Send the link", "You get a payment link and a WhatsApp reply in the customer's language."],
-    ];
-    return `<div class="dashed">
-      <ol class="steps">${steps.map(([t, b], i) => `<li><span class="n">${i + 1}</span><div><p><strong>${t}</strong></p><p class="muted small">${b}</p></div></li>`).join("")}</ol>
-      <p class="hint" style="margin-top:18px">No AI access? <button class="linkbtn" data-act="manual" type="button">Fill in an order by hand</button></p>
-    </div>`;
-  }
-
-  function readingHTML() {
-    return `<div class="panel">
-      <div class="row"><h2>Reading the chat…</h2><span class="muted small num" id="elapsed">0s</span></div>
-      <p class="muted" style="margin:6px 0 0">Finding items, sizes, prices, delivery and the address. This usually takes 10 to 40 seconds.</p>
-      <div class="bars" aria-hidden="true"><span style="width:82%"></span><span style="width:64%"></span><span style="width:73%"></span></div>
-      <div style="margin-top:16px"><button class="btn ghost sm" data-act="stop" type="button">Stop</button></div>
-    </div>`;
-  }
-
+  // ---- Rendering: right column
   const SRC_LABEL = {
-    catalog: ["From your catalog", ""],
-    seller_message: ["Price set by you", ""],
-    customer_claim: ["Customer's price, please confirm", "src-warn"],
-    unknown: ["Check the price", "src-warn"],
+    catalog: ["From your catalog", false],
+    seller_message: ["Price set by you", false],
+    customer_claim: ["Customer's price, please confirm", true],
+    unknown: ["Check the price", true],
   };
+  const srcOf = (it) => (it.unit_price_inr === null ? ["Add a price", true] : SRC_LABEL[it.price_source]);
 
-  function itemHTML(it, i) {
-    const [srcText, srcClass] = it.unit_price_inr === null ? ["Add a price", "src-warn"] : SRC_LABEL[it.price_source];
-    return `<div class="item" data-i="${i}">
-      <label class="f name"><span>Item</span><input class="u" id="item-${i}-name" data-f="name" value="${esc(it.name)}" autocomplete="off"></label>
-      <label class="f"><span>Size</span><input class="u" id="item-${i}-variant" data-f="variant" value="${esc(it.variant)}" placeholder="—" autocomplete="off"></label>
-      <label class="f"><span>Qty</span><input class="u num" id="item-${i}-qty" data-f="quantity" type="number" min="1" inputmode="numeric" value="${it.quantity}"></label>
-      <label class="f price"><span>Price each</span><span class="money"><input class="u num${it.unit_price_inr === null ? " need" : ""}" id="item-${i}-price" data-f="unit_price_inr" type="number" min="0" inputmode="decimal" value="${it.unit_price_inr ?? ""}" placeholder="0"></span></label>
-      <button class="x" data-act="remove-item" data-i="${i}" type="button" aria-label="Remove item ${i + 1}">✕</button>
-      <p class="item-foot"><span class="${srcClass}" data-src>${srcText}</span><span class="line" data-line>${inr(lineTotal(it))}</span></p>
+  function emptyHTML(cls) {
+    const steps = [
+      [ICON.chat, "Paste the chat", "Hinglish, Hindi or English. A sample is already loaded."],
+      [ICON.slip, "Check the order", "Claude fills in items, sizes, prices, delivery and the address."],
+      [ICON.send, "Send the link", "A payment link and a WhatsApp reply in the customer's language."],
+    ];
+    return `<div class="card ${cls}">
+      <h2 class="big-title">Your order appears here.</h2>
+      <p class="sub">Three steps, no retyping.</p>
+      <ol class="steps">${steps.map(([icon, t, b]) => `<li><span class="step-icon">${icon}</span><div><strong>${t}</strong><span>${b}</span></div></li>`).join("")}</ol>
+      <p class="empty-foot">No Claude access? <button class="textlink" data-act="manual" type="button">Fill in an order by hand</button></p>
     </div>`;
   }
 
-  function reviewHTML() {
+  function readingHTML(cls) {
+    return `<div class="card ${cls}">
+      <div class="reading-head">${ICON.spinner}
+        <div><h2 class="card-title">Reading the chat…</h2><p class="sub" id="reading-step">${READING_STEPS[0]}</p></div>
+        <span class="meta" id="elapsed">0s</span>
+      </div>
+      <div class="skeleton" aria-hidden="true"><span style="width:62%"></span><span style="width:88%"></span><span style="width:45%"></span><span class="block"></span><span class="block"></span></div>
+      <div style="margin-top:20px"><button class="btn gray sm" data-act="stop" type="button">Stop</button></div>
+    </div>`;
+  }
+
+  function itemHTML(it, i, enter) {
+    const [srcText, warn] = srcOf(it);
+    const animate = enter || i === state.enterItem;
+    return `<div class="item${animate ? " row-enter" : ""}" data-i="${i}"${enter ? ` style="animation-delay:${120 + i * 70}ms"` : ""}>
+      <input class="input" id="item-${i}-name" data-f="name" value="${esc(it.name)}" placeholder="Item name" autocomplete="off" aria-label="Item ${i + 1} name">
+      <button class="x" data-act="remove-item" data-i="${i}" type="button" aria-label="Remove item ${i + 1}">${ICON.x}</button>
+      <div class="item-row">
+        <input class="input" id="item-${i}-variant" data-f="variant" value="${esc(it.variant)}" placeholder="Size" autocomplete="off" aria-label="Item ${i + 1} size or variant">
+        <div class="stepper" role="group" aria-label="Quantity">
+          <button type="button" data-act="qty-dec" data-i="${i}" aria-label="Decrease quantity">−</button>
+          <input id="item-${i}-qty" data-f="quantity" type="number" min="1" inputmode="numeric" value="${it.quantity}" aria-label="Item ${i + 1} quantity">
+          <button type="button" data-act="qty-inc" data-i="${i}" aria-label="Increase quantity">+</button>
+        </div>
+        <span class="money"><input class="input${it.unit_price_inr === null ? " need" : ""}" id="item-${i}-price" data-f="unit_price_inr" type="number" min="0" inputmode="decimal" value="${it.unit_price_inr ?? ""}" placeholder="Price" aria-label="Item ${i + 1} price each in rupees"></span>
+      </div>
+      <p class="item-foot"><span class="src${warn ? " warn" : ""}" data-src>${srcText}</span><span class="line" data-line>${inr(lineTotal(it))}</span></p>
+    </div>`;
+  }
+
+  function reviewHTML(cls, enter) {
     const d = state.draft, m = state.meta;
     const missing = m.missing.length || m.question ? `<div class="missing">
-        ${m.missing.length ? `<strong>Before you charge</strong><ul>${m.missing.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-        ${m.question ? `<div class="ask"><p class="eyebrow">Ask the customer</p><p>${esc(m.question)}</p>
-          <div class="btns"><a class="btn wa sm" href="${esc(waLink(d.customer_phone, m.question))}" target="_blank" rel="noreferrer">Ask on WhatsApp</a>
-          <button class="btn ghost sm" data-act="copy-question" type="button">Copy</button></div></div>` : ""}
+        ${m.missing.length ? `<p class="missing-title">${ICON.warn}Before you charge</p><ul>${m.missing.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        ${m.question ? `<div class="ask"><span class="label">Ask the customer</span><p class="msg">${esc(m.question)}</p>
+          <div class="btns"><a class="btn green sm" href="${esc(waLink(d.customer_phone, m.question))}" target="_blank" rel="noreferrer">${ICON.send}Ask on WhatsApp</a>
+          <button class="btn gray sm" data-act="copy-question" type="button">${ICON.copy}Copy</button></div></div>` : ""}
       </div>` : "";
-    return `<article class="slip" aria-labelledby="slip-no">
-      <header class="slip-head">
-        <div><p class="eyebrow">Order slip</p><div class="slip-no" id="slip-no">No. ${String(state.slipNo).padStart(4, "0")}</div></div>
-        <span class="muted small">${esc(today())}</span>
-      </header>
+    return `<article class="card slip ${cls}" aria-labelledby="order-title">
+      <div class="order-head">
+        <h2 class="big-title" id="order-title">Check the order</h2>
+        <span class="meta">${slipLabel(state.slipNo)} · ${esc(today())}</span>
+      </div>
       ${m.summary ? `<p class="summary">${esc(m.summary)}</p>` : ""}
       ${missing}
       <div class="fields">
-        <label class="f"><span>Customer</span><input class="u" id="f-name" data-k="customer_name" value="${esc(d.customer_name)}" autocomplete="off"></label>
-        <label class="f"><span>Phone</span><input class="u" id="f-phone" data-k="customer_phone" inputmode="tel" value="${esc(d.customer_phone)}" autocomplete="off"></label>
-        <label class="f wide"><span>Delivery address</span><input class="u" id="f-addr" data-k="shipping_address" value="${esc(d.shipping_address)}" autocomplete="off"></label>
+        <label class="f" for="f-name"><span class="cap">Customer</span><input class="input" id="f-name" data-k="customer_name" value="${esc(d.customer_name)}" autocomplete="off"></label>
+        <label class="f" for="f-phone"><span class="cap">Phone</span><input class="input" id="f-phone" data-k="customer_phone" inputmode="tel" value="${esc(d.customer_phone)}" autocomplete="off"></label>
+        <label class="f wide" for="f-addr"><span class="cap">Delivery address</span><input class="input" id="f-addr" data-k="shipping_address" value="${esc(d.shipping_address)}" autocomplete="off"></label>
       </div>
-      <div class="items-head"><span class="lbl">Items</span><span class="muted small">${esc(d.customer_language)}</span></div>
-      <div id="items">${d.items.map(itemHTML).join("")}</div>
-      <button class="add" data-act="add-item" type="button">+ Add item</button>
+      <div class="section-head"><span class="label">Items</span><span class="meta">${esc(d.customer_language)}</span></div>
+      <div class="items" id="items">${d.items.map((it, i) => itemHTML(it, i, enter)).join("")}</div>
+      <button class="add" data-act="add-item" type="button">${ICON.plus}Add item</button>
       <dl class="totals">
         <div><dt>Subtotal</dt><dd id="t-sub"></dd></div>
-        <div><dt><label for="f-del">Delivery</label></dt><dd><span class="money"><input class="u num" id="f-del" data-k="delivery_charge_inr" type="number" min="0" inputmode="decimal" value="${d.delivery_charge_inr}"></span></dd></div>
-        <div><dt><label for="f-disc">Discount</label></dt><dd><span class="money"><input class="u num" id="f-disc" data-k="discount_inr" type="number" min="0" inputmode="decimal" value="${d.discount_inr}"></span></dd></div>
+        <div><dt><label for="f-del">Delivery</label></dt><dd><span class="money"><input class="input" id="f-del" data-k="delivery_charge_inr" type="number" min="0" inputmode="decimal" value="${d.delivery_charge_inr}"></span></dd></div>
+        <div><dt><label for="f-disc">Discount</label></dt><dd><span class="money"><input class="input" id="f-disc" data-k="discount_inr" type="number" min="0" inputmode="decimal" value="${d.discount_inr}"></span></dd></div>
         <div class="grand"><dt>Total</dt><dd id="t-total"></dd></div>
       </dl>
       <p class="warn-text" id="blocker" hidden></p>
-      <button class="btn primary block" id="create" data-act="create" type="button">Create payment link</button>
+      <button class="btn primary block lg" id="create" data-act="create" type="button">Create payment link</button>
     </article>`;
   }
 
-  function doneHTML() {
+  function doneHTML(cls) {
     const o = state.created;
-    return `<div class="panel">
-      <div class="done-head"><span class="tick" aria-hidden="true">✓</span>
-        <div><h2>Payment link ready</h2><p class="muted" style="margin:2px 0 0">${inr(o.amount)} for ${esc(o.customerName || "your customer")} · slip No. ${String(o.slip).padStart(4, "0")}</p></div></div>
-      <div class="linkbox"><code>${esc(o.link)}</code><button class="btn ghost sm" data-act="copy-link" type="button">Copy link</button></div>
-      <p class="hint">Simulated link. The Razorpay-connected version creates a real payment link here.</p>
-      <label class="lbl" for="reply" style="display:block;margin-top:18px">Reply to the customer</label>
+    return `<div class="card ${cls}">
+      <div class="done-head">
+        <svg class="check" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><path d="M20 33l8 8 16-17"/></svg>
+        <h2 class="big-title">Payment link ready</h2>
+        <p class="sub">${inr(o.amount)} for ${esc(o.customerName || "your customer")} · ${slipLabel(o.slip)}</p>
+      </div>
+      <div class="linkbox"><code>${esc(o.link)}</code><button class="btn gray sm" data-act="copy-link" type="button">${ICON.copy}Copy</button></div>
+      <p class="note-sm">Simulated link. The Razorpay-connected version creates a real payment link here.</p>
+      <label class="label reply-label" for="reply">Reply to the customer</label>
       <textarea id="reply" class="input">${esc(state.reply)}</textarea>
       <div class="split">
-        <a class="btn wa" id="send-wa" href="${esc(waLink(o.customerPhone, state.reply))}" target="_blank" rel="noreferrer">Send on WhatsApp</a>
-        <button class="btn ghost" data-act="copy-reply" type="button">Copy message</button>
+        <a class="btn green" id="send-wa" href="${esc(waLink(o.customerPhone, state.reply))}" target="_blank" rel="noreferrer">${ICON.send}Send on WhatsApp</a>
+        <button class="btn gray" data-act="copy-reply" type="button">${ICON.copy}Copy message</button>
       </div>
-      <div class="row foot">
-        <button class="linkbtn" data-view="orders" type="button">See all orders →</button>
-        <button class="linkbtn" data-act="new" type="button" style="color:var(--ink-2)">Start a new order</button>
+      <div class="foot">
+        <button class="textlink" data-view="orders" type="button">See all orders ›</button>
+        <button class="textlink muted-link" data-act="new" type="button">Start a new order</button>
       </div>
     </div>`;
   }
 
+  let shownPhase = null;
+  let firstPaint = true;
   function renderRight() {
     const right = $("#right");
+    const enter = state.phase !== shownPhase;
+    shownPhase = state.phase;
+    const cls = enter ? (firstPaint ? "rise d3" : "enter") : "";
+    firstPaint = false;
     let html = state.error ? `<div class="alert" role="alert">${esc(state.error)}</div>` : "";
-    if (state.phase === "reading") html += readingHTML();
-    else if (state.phase === "review" && state.draft) html += reviewHTML();
-    else if (state.phase === "done" && state.created) html += doneHTML();
-    else html += stepsHTML();
+    if (state.phase === "reading") html += readingHTML(cls);
+    else if (state.phase === "review" && state.draft) html += reviewHTML(cls, enter);
+    else if (state.phase === "done" && state.created) html += doneHTML(cls);
+    else html += emptyHTML(cls);
     right.innerHTML = html;
-    if (state.phase === "review") updateTotals();
+    state.enterItem = -1;
+    if (state.phase === "review") updateTotals(true);
   }
 
-  function updateTotals() {
+  function updateTotals(initial = false) {
     const d = state.draft;
     if (!d) return;
     $("#t-sub").textContent = inr(subtotalOf(d));
-    $("#t-total").textContent = inr(totalOf(d));
+    const totalEl = $("#t-total");
+    const totalText = inr(totalOf(d));
+    if (!initial && totalEl.textContent !== totalText) restartAnimation(totalEl, "pop");
+    totalEl.textContent = totalText;
     document.querySelectorAll("#items .item").forEach((row) => {
       const it = d.items[Number(row.dataset.i)];
       if (!it) return;
       row.querySelector("[data-line]").textContent = inr(lineTotal(it));
-      const [text, cls] = it.unit_price_inr === null ? ["Add a price", "src-warn"] : SRC_LABEL[it.price_source];
+      const [text, warn] = srcOf(it);
       const src = row.querySelector("[data-src]");
       src.textContent = text;
-      src.className = cls;
+      src.className = warn ? "src warn" : "src";
       row.querySelector('[data-f="unit_price_inr"]').classList.toggle("need", it.unit_price_inr === null);
     });
     const b = blockers();
@@ -673,70 +878,84 @@ Replies to the customer (clarifying_question and reply_template):
     blocker.textContent = b[0] || "";
     const btn = $("#create");
     btn.disabled = b.length > 0;
-    btn.textContent = `Create payment link for ${inr(totalOf(d))}`;
+    btn.textContent = `Create payment link · ${totalText}`;
   }
 
   // ---- Rendering: orders
-  function renderOrders() {
+  function renderOrders(animate) {
     const paid = orders.filter((o) => o.status === "paid");
     const open = orders.filter((o) => o.status === "created");
-    const collected = paid.reduce((s, o) => s + o.amount, 0);
-    const pending = open.reduce((s, o) => s + o.amount, 0);
-    const rate = orders.length ? Math.round((paid.length / orders.length) * 100) : 0;
+    const next = {
+      collected: paid.reduce((s, o) => s + o.amount, 0),
+      pending: open.reduce((s, o) => s + o.amount, 0),
+      rate: orders.length ? Math.round((paid.length / orders.length) * 100) : 0,
+    };
+    const prev = animate || !state.stats ? { collected: 0, pending: 0, rate: 0 } : state.stats;
+    state.stats = next;
     const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
     $("#stats").innerHTML = [
-      ["Collected", inr(collected), plural(paid.length, "paid order"), "good"],
-      ["Pending", inr(pending), plural(open.length, "open link"), ""],
-      ["Paid rate", `${rate}%`, "of links sent", ""],
-    ].map(([k, v, h, c]) => `<div class="stat"><p class="k">${k}</p><p class="v ${c}">${v}</p><p class="h">${h}</p></div>`).join("");
+      ["Collected", "collected", plural(paid.length, "paid order"), "good"],
+      ["Pending", "pending", plural(open.length, "open link"), ""],
+      ["Paid rate", "rate", "of links sent", ""],
+    ].map(([k, key, h, c], i) => `<div class="stat${animate ? " row-enter" : ""}"${animate ? ` style="animation-delay:${i * 70}ms"` : ""}><p class="k">${k}</p><p class="v ${c}" data-stat="${key}"></p><p class="h">${h}</p></div>`).join("");
+    const rupees = (v) => inr(Math.round(v));
+    countTo($('[data-stat="collected"]'), next.collected, rupees, prev.collected);
+    countTo($('[data-stat="pending"]'), next.pending, rupees, prev.pending);
+    countTo($('[data-stat="rate"]'), next.rate, (v) => `${Math.round(v)}%`, prev.rate);
 
     $("#clear").hidden = orders.length === 0;
     $("#clear").textContent = state.clearArmed ? "Click again to clear" : "Clear orders";
 
     if (!orders.length) {
-      $("#orders-list").innerHTML = `<div class="dashed empty"><p style="margin:0"><strong>No orders yet</strong></p>
-        <p class="muted small" style="margin:4px 0 14px">Links you make from chats show up here.</p>
-        <button class="btn primary sm" data-view="new" type="button">Make the first one</button></div>`;
+      $("#orders-list").innerHTML = `<div class="card empty-list${animate ? " row-enter" : ""}">
+        <h2 class="big-title">No orders yet.</h2>
+        <p class="sub" style="margin-bottom:18px">Payment links you make from chats show up here.</p>
+        <button class="btn primary" data-view="new" type="button">Make the first one</button></div>`;
       return;
     }
-    $("#orders-list").innerHTML = `<ul class="list">${orders.map((o) => {
+    $("#orders-list").innerHTML = `<ul class="list${animate ? " row-enter" : ""}"${animate ? ' style="animation-delay:180ms"' : ""}>${orders.map((o) => {
       const isOpen = o.status === "created";
-      const name = o.customerName ? o.customerName.split(" ")[0] : "";
+      const first = o.customerName ? o.customerName.split(" ")[0] : "";
       const hindi = /hinglish|hindi/i.test(o.language || "");
       const remind = hindi
-        ? `Hi${name ? " " + name : ""}! Aapka order (${o.items}) abhi payment pending hai. Yahan se pay kar sakte hain: ${o.link} 🙏`
-        : `Hi${name ? " " + name : ""}! A quick reminder that your order (${o.items}) is awaiting payment. You can pay here: ${o.link}`;
+        ? `Hi${first ? " " + first : ""}! Aapka order (${o.items}) abhi payment pending hai. Yahan se pay kar sakte hain: ${o.link} 🙏`
+        : `Hi${first ? " " + first : ""}! A quick reminder that your order (${o.items}) is awaiting payment. You can pay here: ${o.link}`;
       return `<li>
+        <span class="avatar" style="background:${avatarColor(o.customerName)}" aria-hidden="true">${esc(initials(o.customerName))}</span>
         <div class="who">
-          <p class="name">${esc(o.customerName || "Customer")} <span class="pill ${isOpen ? "created" : "paid"}">${isOpen ? "Awaiting payment" : "Paid"}</span></p>
-          <p class="muted small">${esc(o.items)}</p>
-          <p class="muted small">${timeAgo(o.createdAt)} · No. ${String(o.slip).padStart(4, "0")}${o.customerPhone ? " · " + esc(o.customerPhone) : ""}</p>
+          <p class="name">${esc(o.customerName || "Customer")}<span class="status ${isOpen ? "created" : "paid"}">${isOpen ? "Awaiting payment" : "Paid"}</span></p>
+          <p class="items-line">${esc(o.items)}</p>
+          <p class="meta-line">${timeAgo(o.createdAt)} · ${slipLabel(o.slip)}${o.customerPhone ? " · " + esc(o.customerPhone) : ""}</p>
         </div>
         <span class="amt">${inr(o.amount)}</span>
         <div class="btns">
-          <button class="btn ghost sm" data-act="copy-order" data-id="${esc(o.id)}" type="button">Copy link</button>
-          ${isOpen ? `<a class="btn wa sm" href="${esc(waLink(o.customerPhone, remind))}" target="_blank" rel="noreferrer">Remind</a>
-          <button class="btn ghost sm" data-act="mark-paid" data-id="${esc(o.id)}" type="button">Mark paid</button>` : ""}
+          <button class="btn gray sm" data-act="copy-order" data-id="${esc(o.id)}" type="button">${ICON.copy}Copy link</button>
+          ${isOpen ? `<a class="btn green sm" href="${esc(waLink(o.customerPhone, remind))}" target="_blank" rel="noreferrer">Remind</a>
+          <button class="btn gray sm" data-act="mark-paid" data-id="${esc(o.id)}" type="button">Mark paid</button>` : ""}
         </div>
       </li>`;
     }).join("")}</ul>`;
   }
 
   // ---- Rendering: shell
+  let shownView = "new";
   function render() {
+    const viewChanged = state.view !== shownView;
+    shownView = state.view;
     $("#view-new").hidden = state.view !== "new";
     $("#view-orders").hidden = state.view !== "orders";
+    if (viewChanged) restartAnimation(state.view === "new" ? $("#view-new") : $("#view-orders"), "view-enter");
+    $("#seg").dataset.active = state.view;
     for (const [tab, view] of [["#tab-new", "new"], ["#tab-orders", "orders"]]) {
       if (state.view === view) $(tab).setAttribute("aria-current", "page");
       else $(tab).removeAttribute("aria-current");
     }
     $("#tab-orders").textContent = orders.length ? `Orders (${orders.length})` : "Orders";
-    const read = $("#read");
-    read.disabled = state.phase === "reading" || state.aiOff;
-    read.textContent = state.phase === "reading" ? "Reading the chat…" : state.draft && state.phase === "review" ? "Read again" : "Read order";
+    $("#read").disabled = state.phase === "reading" || state.aiOff;
+    $("#read-label").textContent = state.phase === "reading" ? "Reading…" : state.draft && state.phase === "review" ? "Read again" : "Read order";
     $("#shop-sub").textContent = shop.catalog.trim() ? shop.name || "Catalog saved" : "Add your prices so Claude can fill them in";
     if (state.view === "new") renderRight();
-    else renderOrders();
+    else renderOrders(viewChanged);
   }
 
   function syncShopInputs() {
@@ -745,10 +964,19 @@ Replies to the customer (clarifying_question and reply_template):
     $("#shop-policies").value = shop.policies;
   }
 
+  function setQuantity(i, quantity) {
+    const it = state.draft.items[i];
+    it.quantity = Math.max(1, Math.min(999, quantity));
+    const input = $(`#item-${i}-qty`);
+    if (input) input.value = it.quantity;
+    updateTotals();
+  }
+
   // ---- Events
   document.addEventListener("click", (e) => {
     const viewBtn = e.target.closest("[data-view]");
     if (viewBtn) {
+      if (state.view !== viewBtn.dataset.view) window.scrollTo({ top: 0 });
       state.view = viewBtn.dataset.view;
       state.clearArmed = false;
       render();
@@ -760,16 +988,23 @@ Replies to the customer (clarifying_question and reply_template):
     switch (act.dataset.act) {
       case "manual": fillByHand(); break;
       case "stop": state.ctl?.abort(); break;
-      case "add-item": d.items.push(blankItem()); renderRight(); $(`#item-${d.items.length - 1}-name`)?.focus(); break;
+      case "qty-dec": setQuantity(Number(act.dataset.i), d.items[Number(act.dataset.i)].quantity - 1); break;
+      case "qty-inc": setQuantity(Number(act.dataset.i), d.items[Number(act.dataset.i)].quantity + 1); break;
+      case "add-item":
+        d.items.push(blankItem());
+        state.enterItem = d.items.length - 1;
+        renderRight();
+        $(`#item-${d.items.length - 1}-name`)?.focus();
+        break;
       case "remove-item": d.items.splice(Number(act.dataset.i), 1); renderRight(); break;
       case "create": createLink(); break;
-      case "copy-question": copyText(state.meta.question, act); break;
-      case "copy-link": copyText(state.created.link, act); break;
-      case "copy-reply": copyText(state.reply, act); break;
-      case "copy-order": { const o = orders.find((x) => x.id === act.dataset.id); if (o) copyText(o.link, act); break; }
+      case "copy-question": copyText(state.meta.question); break;
+      case "copy-link": copyText(state.created.link); break;
+      case "copy-reply": copyText(state.reply); break;
+      case "copy-order": { const o = orders.find((x) => x.id === act.dataset.id); if (o) copyText(o.link); break; }
       case "mark-paid": {
         const o = orders.find((x) => x.id === act.dataset.id);
-        if (o) { o.status = "paid"; o.paidAt = Date.now(); store.set("ctp.orders", orders); renderOrders(); }
+        if (o) { o.status = "paid"; o.paidAt = Date.now(); store.set("ctp.orders", orders); renderOrders(false); toast("Marked as paid"); }
         break;
       }
       case "new":
@@ -782,11 +1017,12 @@ Replies to the customer (clarifying_question and reply_template):
   });
 
   $("#clear").addEventListener("click", () => {
-    if (!state.clearArmed) { state.clearArmed = true; renderOrders(); return; }
+    if (!state.clearArmed) { state.clearArmed = true; renderOrders(false); return; }
     orders = [];
     store.set("ctp.orders", orders);
     state.clearArmed = false;
     render();
+    renderOrders(true);
   });
 
   $("#right").addEventListener("input", (e) => {
@@ -807,7 +1043,7 @@ Replies to the customer (clarifying_question and reply_template):
     if (row && t.dataset.f) {
       const it = d.items[Number(row.dataset.i)];
       const f = t.dataset.f;
-      if (f === "quantity") it.quantity = Math.max(1, Math.floor(Number(t.value) || 1));
+      if (f === "quantity") it.quantity = Math.max(1, Math.min(999, Math.floor(Number(t.value) || 1)));
       else if (f === "unit_price_inr") { it.unit_price_inr = t.value.trim() === "" ? null : Math.max(0, Number(t.value) || 0); it.price_source = "seller_message"; }
       else if (f === "variant") it.variant = t.value.trim() ? t.value : null;
       else it.name = t.value;
@@ -819,6 +1055,7 @@ Replies to the customer (clarifying_question and reply_template):
   $("#load-sample").addEventListener("click", () => {
     $("#chat").value = SAMPLE_CHAT;
     if (!shop.catalog.trim()) { shop = { ...SAMPLE_SHOP }; store.set("ctp.shop", shop); syncShopInputs(); render(); }
+    toast("Sample chat loaded");
   });
   for (const [id, key] of [["#shop-name", "name"], ["#shop-catalog", "catalog"], ["#shop-policies", "policies"]]) {
     $(id).addEventListener("input", (e) => {
@@ -831,10 +1068,10 @@ Replies to the customer (clarifying_question and reply_template):
   // ---- Start
   $("#chat").value = SAMPLE_CHAT;
   syncShopInputs();
-  if (location.hash === "#orders") state.view = "orders";
+  if (location.hash === "#orders") { state.view = "orders"; shownView = "orders"; }
   render();
   samplePromise.then((sample) => {
-    if (!sample) $(".hint").textContent = "Open this page on claude.ai while signed in to let Claude read chats. You can still fill in an order by hand.";
+    if (!sample) $("#ai-hint").textContent = "Open this page on claude.ai while signed in to let Claude read chats. You can still fill in an order by hand.";
   });
 })();
 </script>

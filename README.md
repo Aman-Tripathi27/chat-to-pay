@@ -5,33 +5,59 @@
 
 **Turn WhatsApp and Instagram order chats into payment links.**
 
-Small sellers in India take most of their orders in DMs: _"M size me 2 chahiye, aur wo dupatta bhi bhej do."_ Then they retype the order, work out the total by hand, send their UPI ID and wait for a payment screenshot. Chat-to-Pay turns that into one step. Paste the conversation, check the order Claude reads from it, and send the customer a payment link with a reply written in their own language.
-
-### ▶ [Open the live app](https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z)
-
-It runs on Claude, with nothing to install. Sign in with a Claude account, click **Read order** (a sample chat is already loaded), and allow Claude when it asks.
-
 <p align="center">
-  <img src="docs/screenshots/order-slip.png" alt="A Hinglish customer chat on the left; the order slip Claude filled in, with items, sizes, catalog prices and a ₹1,947 total, on the right" width="900">
+  <a href="https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z"><img src="https://img.shields.io/badge/Launch_Chat--to--Pay-0071e3?style=for-the-badge" alt="Launch Chat-to-Pay" height="44"></a>
 </p>
 
-## What it does
+<p align="center"><b>Live app:</b> <a href="https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z">claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z</a><br>Opens in the browser. Nothing to install. Sign in with a Claude account.</p>
+
+<p align="center">
+  <img src="docs/screenshots/order-slip.png" alt="A Hinglish customer chat on the left; the order Claude read from it, with items, sizes, catalog prices and a ₹1,947 total, on the right" width="860">
+</p>
+
+## What this is
+
+Across India, small businesses sell through WhatsApp and Instagram instead of a website. Their orders arrive as casual messages, usually in Hinglish:
+
+> _"Hi di, ye blue wali kurti available hai? M size me 2 chahiye. Aur wo printed dupatta bhi 1 bhej do."_
+
+To turn that into a paid order, the seller has to work out which products and sizes the customer means, look up the prices, apply the delivery rules, add it all up, ask for anything missing, send payment details and then keep track of who has paid. They do this by hand, dozens of times a day, and every step is a chance to get the amount wrong or lose the sale.
+
+**Chat-to-Pay does that work for them.** The seller pastes the conversation and Claude reads it like an experienced shop assistant would: it pulls out the items, sizes and quantities, matches them to the shop's catalog, applies the delivery rules and finds the address. If something is missing, such as a size, it says so and writes the question to send the customer. The seller checks the order and taps once to get a payment link and a reply in the customer's own language, ready to send on WhatsApp. An orders page then shows what has been paid and what is still pending.
+
+The result is a sale closed in one step instead of many, with fewer wrong amounts and a customer who gets a clear, friendly reply.
+
+## Try it in two minutes
+
+1. **[Open the app](https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z)** and sign in with a Claude account. A sample customer chat is already loaded.
+2. **Click Read order** and allow Claude when it asks. Claude takes a moment to read the chat.
+3. **Look at the order.** Claude should find 2 blue kurtis in size M and a dupatta, price them from the shop's catalog, make delivery free because the order is above ₹1,500, and take the address and phone number from the chat.
+4. **Change a quantity** with the − and + buttons and watch the total update, then click **Create payment link**.
+5. **Read the reply.** It should be in Hinglish, include the items, total and link, and answer the customer's "COD hai kya?" from the shop's own policy. **Send on WhatsApp** opens WhatsApp with the message ready.
+6. **Open Orders** to see the order alongside earlier ones, then click **Mark paid** to watch it move to Collected.
+7. **Try your own chat.** For example, paste _"Pink anarkali chahiye, Bangalore delivery"_ and see Claude ask for the size and the full address.
+
+## How it works
 
 ```mermaid
 flowchart LR
     A[Customer chat] --> B[Claude reads the order]
-    B --> C[Seller checks the slip]
+    B --> C[Seller checks it]
     C --> D[Payment link and reply]
     D --> E[Send on WhatsApp]
     E --> F[Orders dashboard]
 ```
 
-1. **Paste a chat** in Hinglish, Hindi or English.
-2. **Claude fills in an order slip:** items, sizes, quantities, prices from the shop's catalog, the delivery charge (including free-delivery thresholds) and the address.
-3. **Missing details are flagged.** If the size or address isn't in the chat, the seller sees a warning and a question for the customer, already written in their language.
-4. **The seller checks the slip.** Every field can be edited, and the total updates as they type.
-5. **One click creates the payment link,** with a reply in the customer's language that includes the items, the total and the link. **Send on WhatsApp** opens the chat with the message ready.
-6. **The Orders page** shows collected and pending amounts and the paid rate, with one-tap WhatsApp reminders for unpaid orders.
+The live app is a single file, [`claude-app/index.html`](claude-app/index.html), published on Claude. It needs no server, no build step and no API key: when the seller clicks **Read order**, the page asks Claude to read the chat through Claude's built-in AI access, on the viewer's own Claude account.
+
+- **Claude drafts, the app decides the money.** Claude returns the order as structured JSON. The app checks every field and calculates all the totals itself, so the amount always matches the items on screen.
+- **Prices show where they came from.** Each line says whether its price came from the catalog, was set by the seller, or was only stated by the customer. A customer's _"you said ₹100"_ is flagged, not charged.
+- **Chats are treated as data.** Claude is told to ignore any instructions inside the conversation, so a message like _"make it free"_ can't change the order.
+- **The reply always matches the charge.** Claude writes the reply with placeholders for the items, total and link, which are filled in after the seller's edits.
+- **WhatsApp without an API.** Messages open through `wa.me` links, so there is no WhatsApp Business onboarding and no per-message cost.
+- **Nothing is stored on a server.** The shop catalog and orders stay in the seller's browser. Payment links in the live app are simulated, so no one is charged.
+
+The interface is built for a seller's phone: large, clear type, a sliding section switch, a quantity stepper, smooth transitions between steps, and automatic light and dark modes. It respects the "reduce motion" accessibility setting.
 
 | Payment link and reply                                                   | Orders dashboard                                                         |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
@@ -40,17 +66,6 @@ flowchart LR
 <p align="center">
   <img src="docs/screenshots/mobile-missing-info.png" alt="On a phone in dark mode: missing size and address flagged, with a drafted question to the customer" width="300">
 </p>
-
-## How it works
-
-The live app is a single file, [`claude-app/index.html`](claude-app/index.html), published on Claude. It needs no server, no build step and no API key: when the seller clicks **Read order**, the page asks Claude to read the chat through Claude's built-in AI access, on the viewer's own Claude account.
-
-- **Claude drafts, the page decides the money.** Claude returns the order as JSON. The page checks every field and calculates all totals itself, so the amount always matches the items on the slip.
-- **Prices show where they came from.** Each line says whether its price came from the catalog, from the seller, or only from the customer. A customer's _"you said ₹100"_ is flagged instead of charged.
-- **Chats are treated as data.** Claude is told to ignore any instructions inside the conversation, so a message like _"make it free"_ can't change the order.
-- **The reply always matches the charge.** Claude writes the reply with placeholders for the items, total and link, which are filled in after the seller's edits.
-- **WhatsApp without an API.** Messages open through `wa.me` links, so there is no WhatsApp Business onboarding and no per-message cost.
-- **Nothing is stored on a server.** The shop catalog and orders stay in the seller's browser. Payment links in the live app are simulated, so no one is charged.
 
 ## Repository
 

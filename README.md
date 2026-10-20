@@ -29,31 +29,5 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 and sign in with your `APP_PASSWORD`.
 
-| Variable | Where to get it |
-|---|---|
-| `APP_PASSWORD` | Make up a long one. |
-| `ANTHROPIC_API_KEY` | [platform.claude.com](https://platform.claude.com) → API keys |
-| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Razorpay Dashboard → Account & Settings → API Keys. Use **test mode** keys (`rzp_test_…`) first. |
 
-If you leave the Razorpay keys empty, the app runs in **demo mode**. Links are fake (`demo-link.invalid`) and stored in memory until the server restarts. This is handy for trying the flow, but don't use it in production.
-
-With test keys, the links are real Razorpay test links. Open one and pay with Razorpay's test UPI ID or a test card, and the order flips to **Paid** on the Orders page.
-
-## Deploy to Vercel
-
-1. Push this folder to a GitHub repo.
-2. On [vercel.com/new](https://vercel.com/new), import the repo (Vercel detects Next.js on its own).
-3. Under **Environment Variables**, add the four variables above.
-4. Click **Deploy**.
-
-Every push to the main branch redeploys automatically.
-
-## Known limits
-
-- **Single seller:** one password, with no separate accounts.
-- **Dashboard reads the latest links from Razorpay's list API.** It asks for up to 100 and doesn't page through older links yet.
-- **No webhooks yet:** statuses refresh when you open or refocus the Orders page.
-- **No rate limit on the login form.** Use a long password.
-- Customers enter their own phone and email on Razorpay's checkout page; Razorpay no longer pre-fills them.

@@ -12,7 +12,7 @@
 <p align="center"><b>Live app:</b> <a href="https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z">claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z</a><br>Opens in the browser. Nothing to install. Sign in with a Claude account.</p>
 
 <p align="center">
-  <img src="docs/screenshots/order-slip.png" alt="A Hinglish customer chat on the left; the order Claude read from it, with items, sizes, catalog prices and a ₹1,947 total, on the right" width="860">
+  <img src="docs/screenshots/hero.png" alt="The Chat-to-Pay home page: a phone showing a Hinglish customer chat, with the order Claude read from it, totalling ₹1,947, floating beside it" width="860">
 </p>
 
 ## What this is
@@ -30,11 +30,11 @@ The result is a sale closed in one step instead of many, with fewer wrong amount
 ## Try it in two minutes
 
 1. **[Open the app](https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z)** and sign in with a Claude account. A sample customer chat is already loaded.
-2. **Click Read order** and allow Claude when it asks. Claude takes a moment to read the chat.
-3. **Look at the order.** Claude should find 2 blue kurtis in size M and a dupatta, price them from the shop's catalog, make delivery free because the order is above ₹1,500, and take the address and phone number from the chat.
+2. **Click Try it, then Read order**, and allow Claude when it asks. Claude takes a moment to read the chat.
+3. **Check the order.** Claude should find 2 blue kurtis in size M and a dupatta, price them from the shop's catalog, make delivery free because the order is above ₹1,500, and take the address and phone number from the chat.
 4. **Change a quantity** with the − and + buttons and watch the total update, then click **Create payment link**.
 5. **Read the reply.** It should be in Hinglish, include the items, total and link, and answer the customer's "COD hai kya?" from the shop's own policy. **Send on WhatsApp** opens WhatsApp with the message ready.
-6. **Open Orders** to see the order alongside earlier ones, then click **Mark paid** to watch it move to Collected.
+6. **Scroll to Orders** to see the order alongside earlier ones, then click **Mark paid** to watch it move to Collected.
 7. **Try your own chat.** For example, paste _"Pink anarkali chahiye, Bangalore delivery"_ and see Claude ask for the size and the full address.
 
 ## How it works
@@ -57,14 +57,24 @@ The live app is a single file, [`claude-app/index.html`](claude-app/index.html),
 - **WhatsApp without an API.** Messages open through `wa.me` links, so there is no WhatsApp Business onboarding and no per-message cost.
 - **Nothing is stored on a server.** The shop catalog and orders stay in the seller's browser. Payment links in the live app are simulated, so no one is charged.
 
-The interface is built for a seller's phone: large, clear type, a sliding section switch, a quantity stepper, smooth transitions between steps, and automatic light and dark modes. It respects the "reduce motion" accessibility setting.
-
-| Payment link and reply                                                   | Orders dashboard                                                         |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| ![Payment link with a Hinglish reply](docs/screenshots/payment-link.png) | ![Orders with collected and pending totals](docs/screenshots/orders.png) |
+The page is designed like a product page: a frosted navigation bar, full-width tiles that explain each step, and the working tool below them. The chat on the hero phone types itself out, highlights sweep across the chat as you scroll, the success checkmark draws itself and the order totals count up. Everything is sized for a seller's phone, and the animations switch off when "reduce motion" is turned on.
 
 <p align="center">
-  <img src="docs/screenshots/mobile-missing-info.png" alt="On a phone in dark mode: missing size and address flagged, with a drafted question to the customer" width="300">
+  <img src="docs/screenshots/reads-hinglish.png" alt="Black tile titled Reads Hinglish: the customer's messages with the items, size, quantities, address and phone number highlighted in colour" width="860">
+</p>
+
+| Check the order                                                           | Payment link and reply                                                   |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| ![The order Claude read, ready to check](docs/screenshots/order-slip.png) | ![Payment link with a Hinglish reply](docs/screenshots/payment-link.png) |
+
+<p align="center">
+  <img src="docs/screenshots/orders.png" alt="Orders: ₹4,764 collected, ₹3,155 pending, 60% paid, and a list of customers with their payment status" width="860">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/mobile-hero.png" alt="The home page on a phone" width="280">
+  &nbsp;
+  <img src="docs/screenshots/mobile-missing-info.png" alt="On a phone: missing size and address flagged, with a drafted question to the customer" width="280">
 </p>
 
 ## Repository

@@ -344,7 +344,7 @@ export function NewOrder() {
                   <div className="mt-2 grid grid-cols-3 gap-2">
                     <input
                       aria-label="Size or variant"
-                      placeholder="Size / variant"
+                      placeholder="Size"
                       className="field"
                       value={item.variant ?? ""}
                       onChange={(e) => updateItem(i, { variant: orNull(e.target.value) })}
@@ -355,7 +355,9 @@ export function NewOrder() {
                       min={1}
                       className="field"
                       value={item.quantity}
-                      onChange={(e) => updateItem(i, { quantity: Math.max(1, Math.floor(Number(e.target.value) || 1)) })}
+                      onChange={(e) =>
+                        updateItem(i, { quantity: Math.max(1, Math.floor(Number(e.target.value) || 1)) })
+                      }
                     />
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">₹</span>
@@ -367,7 +369,10 @@ export function NewOrder() {
                         className={`field pl-7 ${item.unit_price_inr === null ? "border-warn" : ""}`}
                         value={item.unit_price_inr ?? ""}
                         onChange={(e) =>
-                          updateItem(i, { unit_price_inr: numberOrNull(e.target.value), price_source: "seller_message" })
+                          updateItem(i, {
+                            unit_price_inr: numberOrNull(e.target.value),
+                            price_source: "seller_message",
+                          })
                         }
                       />
                     </div>
@@ -407,7 +412,9 @@ export function NewOrder() {
               />
               <Row
                 label="Discount"
-                value={<MoneyInput value={draft.discount_inr} onChange={(v) => setDraft({ ...draft, discount_inr: v })} />}
+                value={
+                  <MoneyInput value={draft.discount_inr} onChange={(v) => setDraft({ ...draft, discount_inr: v })} />
+                }
               />
               <div className="flex items-center justify-between border-t border-border pt-3 text-base font-semibold">
                 <dt>Total</dt>
@@ -472,7 +479,10 @@ export function NewOrder() {
               >
                 Send on WhatsApp
               </a>
-              <button onClick={() => copy("reply", reply)} className="rounded-lg border border-border px-4 py-2.5 font-medium">
+              <button
+                onClick={() => copy("reply", reply)}
+                className="rounded-lg border border-border px-4 py-2.5 font-medium"
+              >
                 {copied === "reply" ? "Copied" : "Copy message"}
               </button>
             </div>

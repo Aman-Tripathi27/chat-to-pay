@@ -1,10 +1,4 @@
-import {
-  itemsSummary,
-  normalizePhone,
-  orderTotal,
-  type CreateLinkInput,
-  type OrderRow,
-} from "@/lib/order";
+import { itemsSummary, normalizePhone, orderTotal, type CreateLinkInput, type OrderRow } from "@/lib/order";
 
 // Razorpay is the database: each order is a Payment Link, tagged via notes so
 // the dashboard can tell our links apart from the merchant's other links.
@@ -86,7 +80,8 @@ async function errorFrom(res: Response): Promise<RazorpayError> {
 
 const clip = (s: string, max = 250) => (s.length > max ? `${s.slice(0, max - 1)}…` : s);
 
-function buildRequest(input: CreateLinkInput) {
+/** The exact body sent to POST /v1/payment_links. Exported for tests. */
+export function buildPaymentLinkRequest(input: CreateLinkInput) {
   const total = orderTotal(input);
   const amountPaise = Math.round(total * 100);
   if (amountPaise < 100) throw new RazorpayError("The order total must be at least ₹1.", 400);
@@ -128,7 +123,7 @@ const demoStore: Map<string, PaymentLink> = ((globalThis as Record<string, unkno
 >;
 
 export async function createPaymentLink(input: CreateLinkInput): Promise<OrderRow> {
-  const body = buildRequest(input);
+  const body = buildPaymentLinkRequest(input);
 
   if (razorpayMode() === "demo") {
     const id = `plink_demo_${crypto.randomUUID().slice(0, 10)}`;

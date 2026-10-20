@@ -91,7 +91,9 @@
     border-radius: 0.6rem;
     padding: 0.55rem 0.75rem;
     outline: none;
-    transition: border-color 120ms, box-shadow 120ms;
+    transition:
+      border-color 120ms,
+      box-shadow 120ms;
   }
 
   .field:focus {

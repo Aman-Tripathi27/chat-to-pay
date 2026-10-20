@@ -4,10 +4,7 @@ import { z } from "zod";
 // where unknown) so structured outputs always returns the full shape.
 export const ItemSchema = z.object({
   name: z.string().describe("Product name, using the catalog's wording when it matches"),
-  variant: z
-    .string()
-    .nullable()
-    .describe("Size, colour or flavour. Null when not applicable or not yet known."),
+  variant: z.string().nullable().describe("Size, colour or flavour. Null when not applicable or not yet known."),
   quantity: z.number().int().describe("Number of units, at least 1"),
   unit_price_inr: z
     .number()

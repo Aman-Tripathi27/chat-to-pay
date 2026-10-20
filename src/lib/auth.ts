@@ -40,10 +40,7 @@ export async function checkPassword(candidate: string): Promise<boolean> {
   const password = process.env.APP_PASSWORD;
   if (!password) return false;
   // Compare digests so the comparison length doesn't leak the password length.
-  const [a, b] = await Promise.all([
-    hmacHex("chat-to-pay-login", candidate),
-    hmacHex("chat-to-pay-login", password),
-  ]);
+  const [a, b] = await Promise.all([hmacHex("chat-to-pay-login", candidate), hmacHex("chat-to-pay-login", password)]);
   return constantTimeEqual(a, b);
 }
 

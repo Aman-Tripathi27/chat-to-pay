@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-2: #f0f2f7;
+  --border: #e2e5ee;
+  --text: #121826;
+  --muted: #5d6576;
+  --accent: #2851e6;
+  --accent-hover: #1f43c4;
+  --accent-soft: #e8edfd;
+  --accent-ink: #ffffff;
+  --ok: #0f7a55;
+  --ok-soft: #e3f5ec;
+  --warn: #8a5a00;
+  --warn-soft: #fff3d6;
+  --danger: #b42318;
+  --danger-soft: #fdeceb;
+  --wa: #128c4b;
+  --wa-ink: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1017;
+    --surface: #151a23;
+    --surface-2: #1c2230;
+    --border: #2a3242;
+    --text: #e8ebf2;
+    --muted: #9aa3b5;
+    --accent: #6d8cff;
+    --accent-hover: #8aa3ff;
+    --accent-soft: #1d2747;
+    --accent-ink: #0d1017;
+    --ok: #4cc79a;
+    --ok-soft: #12291f;
+    --warn: #f0b545;
+    --warn-soft: #2d2412;
+    --danger: #ff8a80;
+    --danger-soft: #2f1716;
+    --wa: #3ccf7f;
+    --wa-ink: #05210f;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-wa: var(--wa);
+  --color-wa-ink: var(--wa-ink);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+/* In the components layer so Tailwind utilities (pl-7, py-1…) can override it. */
+@layer components {
+  .field {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 0.6rem;
+    padding: 0.55rem 0.75rem;
+    outline: none;
+    transition: border-color 120ms, box-shadow 120ms;
+  }
+
+  .field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .field::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
+  }
+}

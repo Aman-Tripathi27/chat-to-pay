@@ -91,42 +91,30 @@ The reader is tested against **46 sample chats** in [`fixtures.ts`](src/lib/pars
 
 The page is designed like a product page: a frosted navigation bar, full-width tiles that explain each step, and the working tool below them. The chat on the hero phone types itself out, highlights sweep across the chat as you scroll, the success checkmark draws itself and the order totals count up. Everything is sized for a seller's phone, and the animations switch off when "reduce motion" is turned on.
 
-## Repository
+## Project structure
 
-| Path                                                   | What it is                                                                                                                   |
-| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| [`src/lib/parser/`](src/lib/parser)                    | The order reader, its 46 sample chats and its tests.                                                                         |
-| [`web/`](web)                                          | The web app: [`index.html`](web/index.html) (page and styles), [`app.ts`](web/app.ts) and `public/` (icon and link preview). |
-| [`scripts/build-web.mjs`](scripts/build-web.mjs)       | Bundles the web app and the reader into one self-contained HTML file.                                                        |
-| [`src/`](src)                                          | The server version (Next.js and TypeScript), with a pluggable payment layer.                                                 |
-| `src/**/*.test.ts`                                     | 108 automated tests.                                                                                                         |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | Runs lint, formatting and type checks, the tests and both builds on every push.                                              |
-| [`netlify.toml`](netlify.toml)                         | Deploys the web app to Netlify straight from GitHub.                                                                         |
-
-## Run and deploy
-
-Requires Node.js 22.
-
-```bash
-npm install
-npm run build:web   # writes web/dist/index.html, one file that works on any static host
-npm test            # run the test suite
-```
-
-**Netlify:** in Netlify choose **Add new project → Import an existing project**, pick this repository and deploy. [`netlify.toml`](netlify.toml) sets the build, so there is nothing to configure, and every push to `main` redeploys. The live app above is deployed this way.
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Aman-Tripathi27/chat-to-pay)
+| Path                                             | Contents                                                       |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+| [`src/lib/parser/`](src/lib/parser)              | The order reader, its 46 sample chats and its tests            |
+| [`web/`](web)                                    | The web app: page, styles and script                           |
+| [`scripts/build-web.mjs`](scripts/build-web.mjs) | Bundles the web app into one self-contained HTML file          |
+| [`src/`](src)                                    | The server version, built with Next.js                         |
+| [`.github/workflows/`](.github/workflows)        | CI: lint, type checks, 108 tests and both builds on every push |
 
 ## Server version
 
-`src/` runs the same flow on a server: the order reader behind an API, amounts calculated in paise, and a password protecting the orders dashboard.
+`src/` runs the same flow behind an API, calculates amounts in paise and protects the orders dashboard with a password. Payment links go through one small interface, `PaymentLinkProvider` in [`src/lib/payments.ts`](src/lib/payments.ts), which ships with a simulated provider. A real payment gateway plugs in by implementing `create` and `list`.
 
-Payment links go through one small interface, `PaymentLinkProvider` in [`src/lib/payments.ts`](src/lib/payments.ts). It ships with a simulated provider, and any payment gateway can be plugged in by implementing `create` and `list`. The tests cover the order maths, the payment layer, sign-in and the API routes.
+## Development
 
 ```bash
-cp .env.example .env.local   # set APP_PASSWORD
-npm run dev                  # open http://localhost:3000
+npm install
+npm test            # run the 108 tests
+npm run build:web   # build the web app into web/dist
+npm run dev         # run the server version on localhost:3000 (copy .env.example to .env.local first)
 ```
+
+The live app is deployed on Netlify and updates on every push to `main`.
 
 ## Built with
 

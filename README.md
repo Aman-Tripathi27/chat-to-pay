@@ -6,10 +6,10 @@
 **Turn WhatsApp and Instagram order chats into payment links.**
 
 <p align="center">
-  <a href="https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z"><img src="https://img.shields.io/badge/Launch_Chat--to--Pay-0071e3?style=for-the-badge" alt="Launch Chat-to-Pay" height="44"></a>
+  <a href="https://chat-to-pay.netlify.app"><img src="https://img.shields.io/badge/Launch_Chat--to--Pay-0071e3?style=for-the-badge" alt="Launch Chat-to-Pay" height="44"></a>
 </p>
 
-<p align="center"><b>Live app:</b> <a href="https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z">claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z</a><br>Opens in the browser. Nothing to install, no account, no API key.</p>
+<p align="center"><b>Live app:</b> <a href="https://chat-to-pay.netlify.app">chat-to-pay.netlify.app</a><br>Opens in the browser. Nothing to install, no account, no API key.</p>
 
 <p align="center">
   <img src="docs/screenshots/hero.png" alt="The Chat-to-Pay home page: a phone showing a Hinglish customer chat, with the order read from it, totalling ₹1,947, floating beside it" width="860">
@@ -29,7 +29,7 @@ The reader is written from scratch in TypeScript. It needs no AI service, no API
 
 ## Try it in two minutes
 
-1. **[Open the app](https://claude.ai/artifact/MNAgjCaBiVyyiMpBrJuy8z).** A sample customer chat is already loaded.
+1. **[Open the app](https://chat-to-pay.netlify.app).** A sample customer chat is already loaded.
 2. **Click Try it, then Read order.** The order appears instantly.
 3. **Check the order.** It should show 2 blue kurtis in size M and a dupatta, priced from the shop's catalog, with free delivery because the order is above ₹1,500, and the address and phone number taken from the chat.
 4. **Change a quantity** with the − and + buttons and watch the total update, then click **Create payment link**.
@@ -113,7 +113,7 @@ npm run build:web   # writes web/dist/index.html, one file that works on any sta
 npm test            # run the test suite
 ```
 
-**Netlify:** in Netlify choose **Add new project → Import an existing project**, pick this repository and deploy. [`netlify.toml`](netlify.toml) sets the build, so there is nothing to configure, and every push to `main` redeploys.
+**Netlify:** in Netlify choose **Add new project → Import an existing project**, pick this repository and deploy. [`netlify.toml`](netlify.toml) sets the build, so there is nothing to configure, and every push to `main` redeploys. The live app above is deployed this way.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Aman-Tripathi27/chat-to-pay)
 

@@ -5,6 +5,7 @@
   "description": "Turn WhatsApp and Instagram order chats into payment links. A built-in reader extracts the order; the seller reviews and sends a link in one tap.",
   "license": "MIT",
   "author": "Aman Tripathi (https://github.com/Aman-Tripathi27)",
+  "homepage": "https://chat-to-pay.netlify.app",
   "repository": {
     "type": "git",
     "url": "https://github.com/Aman-Tripathi27/chat-to-pay.git"

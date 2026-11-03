@@ -93,15 +93,15 @@ The page is designed like a product page: a frosted navigation bar, full-width t
 
 ## Repository
 
-| Path                                                   | What it is                                                                                |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| [`src/lib/parser/`](src/lib/parser)                    | The order reader, its 46 sample chats and its tests.                                      |
-| [`web/`](web)                                          | The web app: [`index.html`](web/index.html) (page and styles) and [`app.ts`](web/app.ts). |
-| [`scripts/build-web.mjs`](scripts/build-web.mjs)       | Bundles the web app and the reader into one self-contained HTML file.                     |
-| [`src/`](src)                                          | The server version (Next.js and TypeScript), with a pluggable payment layer.              |
-| `src/**/*.test.ts`                                     | 108 automated tests.                                                                      |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | Runs lint, formatting and type checks, the tests and both builds on every push.           |
-| [`netlify.toml`](netlify.toml)                         | Deploys the web app to Netlify straight from GitHub.                                      |
+| Path                                                   | What it is                                                                                                                   |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| [`src/lib/parser/`](src/lib/parser)                    | The order reader, its 46 sample chats and its tests.                                                                         |
+| [`web/`](web)                                          | The web app: [`index.html`](web/index.html) (page and styles), [`app.ts`](web/app.ts) and `public/` (icon and link preview). |
+| [`scripts/build-web.mjs`](scripts/build-web.mjs)       | Bundles the web app and the reader into one self-contained HTML file.                                                        |
+| [`src/`](src)                                          | The server version (Next.js and TypeScript), with a pluggable payment layer.                                                 |
+| `src/**/*.test.ts`                                     | 108 automated tests.                                                                                                         |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | Runs lint, formatting and type checks, the tests and both builds on every push.                                              |
+| [`netlify.toml`](netlify.toml)                         | Deploys the web app to Netlify straight from GitHub.                                                                         |
 
 ## Run and deploy
 

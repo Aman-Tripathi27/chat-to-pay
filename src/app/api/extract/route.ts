@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { requireSession } from "@/lib/auth";
-import { ExtractError, extractOrder } from "@/lib/extract";
-
-export const maxDuration = 60;
+import { readOrder } from "@/lib/parser";
 
 const BodySchema = z.object({
   chat: z.string().trim().min(1, "Paste a chat first.").max(20_000, "That chat is too long (20,000 characters max)."),
@@ -20,14 +18,6 @@ export async function POST(request: Request) {
     return Response.json({ error: parsed.error.issues[0]?.message ?? "Invalid request" }, { status: 400 });
   }
 
-  try {
-    const order = await extractOrder(parsed.data);
-    return Response.json({ order });
-  } catch (error) {
-    if (error instanceof ExtractError) {
-      return Response.json({ error: error.message }, { status: error.status });
-    }
-    console.error("extract failed", error);
-    return Response.json({ error: "Something went wrong reading the chat." }, { status: 500 });
-  }
+  const { chat, shopName, catalog, policies } = parsed.data;
+  return Response.json({ order: readOrder(chat, { name: shopName, catalog, policies }) });
 }

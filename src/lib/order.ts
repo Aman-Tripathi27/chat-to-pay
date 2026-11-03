@@ -1,49 +1,6 @@
 import { z } from "zod";
 
-// What Claude extracts from a customer chat. Every field is required (nullable
-// where unknown) so structured outputs always returns the full shape.
-export const ItemSchema = z.object({
-  name: z.string().describe("Product name, using the catalog's wording when it matches"),
-  variant: z.string().nullable().describe("Size, colour or flavour. Null when not applicable or not yet known."),
-  quantity: z.number().int().describe("Number of units, at least 1"),
-  unit_price_inr: z
-    .number()
-    .nullable()
-    .describe("Price per unit in rupees. Null when neither the catalog nor the seller gave one."),
-  price_source: z
-    .enum(["catalog", "seller_message", "customer_claim", "unknown"])
-    .describe("Where unit_price_inr came from"),
-});
-
-export const ExtractedOrderSchema = z.object({
-  customer_name: z.string().nullable(),
-  customer_phone: z.string().nullable().describe("Digits as written, with country code if given"),
-  customer_email: z.string().nullable(),
-  customer_language: z
-    .string()
-    .describe("How the customer writes, e.g. 'Hinglish', 'Hindi (Devanagari)', 'English', 'Tamil'"),
-  items: z.array(ItemSchema),
-  shipping_address: z.string().nullable().describe("Full delivery address on one line"),
-  pincode: z.string().nullable(),
-  delivery_charge_inr: z.number().nullable().describe("Delivery fee per the shop's rules; 0 if free"),
-  discount_inr: z.number().nullable().describe("Only a discount the seller offered in the chat"),
-  missing_info: z
-    .array(z.string())
-    .describe("Short notes for the seller on anything needed before charging; empty if complete"),
-  clarifying_question: z
-    .string()
-    .nullable()
-    .describe("If something is missing: a short message to the customer, in their language, asking for it"),
-  reply_template: z
-    .string()
-    .describe(
-      "Message to the customer in their language confirming the order. Must contain {{ITEMS}}, {{TOTAL}} and {{LINK}} placeholders.",
-    ),
-  seller_summary: z.string().describe("One line for the seller summarising the order"),
-});
-
-export type ExtractedOrder = z.infer<typeof ExtractedOrderSchema>;
-export type OrderItem = z.infer<typeof ItemSchema>;
+export type { ParsedOrder as ExtractedOrder, ParsedItem as OrderItem } from "@/lib/parser";
 
 // What the browser sends when creating a payment link (after the seller edits).
 export const CreateLinkSchema = z.object({

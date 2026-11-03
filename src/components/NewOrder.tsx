@@ -163,8 +163,8 @@ export function NewOrder() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Turn a chat into a payment</h1>
           <p className="mt-1 text-sm text-muted">
-            Paste the WhatsApp or Instagram conversation. Claude reads the order, you check it, and the customer gets a
-            payment link.
+            Paste the WhatsApp or Instagram conversation. Chat-to-Pay reads the order, you check it, and the customer
+            gets a payment link.
           </p>
         </div>
 
@@ -204,7 +204,7 @@ export function NewOrder() {
             <span>
               <span className="text-sm font-medium">Shop setup</span>
               <span className="ml-2 text-xs text-muted">
-                {shopIsEmpty ? "Add your prices so Claude can fill them in" : shop.name || "Catalog saved"}
+                {shopIsEmpty ? "Add your prices so they can be filled in" : shop.name || "Catalog saved"}
               </span>
             </span>
             <span className="text-muted">{shopOpen ? "−" : "+"}</span>
@@ -549,7 +549,7 @@ function PriceSource({ source, hasPrice }: { source: DraftItem["price_source"]; 
 function EmptyState() {
   const steps = [
     ["Paste the chat", "Hinglish, Hindi, English: whatever your customer writes in."],
-    ["Check the order", "Claude fills in items, sizes, prices and address, and flags anything missing."],
+    ["Check the order", "Chat-to-Pay fills in items, sizes, prices and address, and flags anything missing."],
     ["Send the link", "One tap creates a payment link and a WhatsApp reply in the customer's language."],
   ];
   return (

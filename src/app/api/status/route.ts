@@ -10,6 +10,5 @@ export async function GET(request: Request) {
 
   return Response.json({
     payments: paymentProvider().mode,
-    claudeConfigured: Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN),
   });
 }

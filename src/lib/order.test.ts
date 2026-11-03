@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   CreateLinkSchema,
-  ExtractedOrderSchema,
   fillReply,
   formatINR,
   itemsSummary,
@@ -131,32 +130,5 @@ describe("CreateLinkSchema", () => {
     ["negative delivery", { delivery_charge_inr: -10 }],
   ])("rejects %s", (_, patch) => {
     expect(CreateLinkSchema.safeParse({ ...valid, ...patch }).success).toBe(false);
-  });
-});
-
-describe("ExtractedOrderSchema", () => {
-  const extracted = {
-    customer_name: "Neha Verma",
-    customer_phone: "98765 43210",
-    customer_email: null,
-    customer_language: "Hinglish",
-    items: [{ name: "Blue kurti", variant: "M", quantity: 2, unit_price_inr: 799, price_source: "catalog" }],
-    shipping_address: null,
-    pincode: null,
-    delivery_charge_inr: 0,
-    discount_inr: null,
-    missing_info: ["Address missing"],
-    clarifying_question: "Address bhej dijiye?",
-    reply_template: "{{ITEMS}} {{TOTAL}} {{LINK}}",
-    seller_summary: "2 kurtis for Neha",
-  };
-
-  it("accepts the shape the model is asked for", () => {
-    expect(ExtractedOrderSchema.safeParse(extracted).success).toBe(true);
-  });
-
-  it("rejects an unknown price source", () => {
-    const bad = { ...extracted, items: [{ ...extracted.items[0], price_source: "guess" }] };
-    expect(ExtractedOrderSchema.safeParse(bad).success).toBe(false);
   });
 });

@@ -1,0 +1,16 @@
+# Netlify serves the single-page web app from web/dist. The build starts in web/ so Netlify
+# doesn't detect the Next.js server version at the repo root and try to deploy that instead.
+[build]
+  base = "web"
+  command = "cd .. && npm ci && npm run build:web"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"

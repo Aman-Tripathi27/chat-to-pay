@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type Status = { payments: "live" | "test" | "simulated"; claudeConfigured: boolean };
+type Status = { payments: "live" | "test" | "simulated" };
 
 const MODE_LABEL: Record<Status["payments"], { text: string; className: string }> = {
   test: { text: "Test payments", className: "bg-warn-soft text-warn" },
@@ -67,11 +67,6 @@ export function AppHeader() {
           </button>
         </div>
       </div>
-      {status && !status.claudeConfigured && (
-        <div className="bg-danger-soft px-4 py-2 text-center text-sm text-danger">
-          ANTHROPIC_API_KEY isn&apos;t set on the server, so reading chats won&apos;t work yet.
-        </div>
-      )}
     </header>
   );
 }
